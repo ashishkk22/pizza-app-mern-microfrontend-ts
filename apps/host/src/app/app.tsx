@@ -10,7 +10,7 @@ import { useHotkeys, useLocalStorage } from '@mantine/hooks';
 const Cart = React.lazy(() => import('cart/Module'));
 const Shop = React.lazy(() => import('shop/Module'));
 const Auth = React.lazy(() => import('auth/Module'));
-
+const primaryColor = ['#ff5655'];
 export function App() {
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
     key: 'color-scheme',
@@ -34,30 +34,30 @@ export function App() {
         theme={{
           colorScheme,
           fontFamily: 'Open Sans',
-          // colors: {
-          // ak: [
-          //   '#FF6900',
-          //   '#FF6900',
-          //   '#FF6900',
-          //   '#FF6900',
-          //   '#FF6900',
-          //   '#FF6900',
-          //   '#ff5655',
-          //   '#FF6900',
-          //   '#FF6900',
-          //   '#FF6900',
-          // ],
-          // },
-          primaryColor: '#ff5655',
+          colors: {
+            brand: [
+              '#EDEDED',
+              '#ff8988',
+              '#ff9a99',
+              '#ffbbbb',
+              '#ffcccc',
+              '#ffdddd',
+              '#ff5655',
+              '#ff6766',
+              '#ffeeee',
+              '#70544F',
+            ],
+          },
+          primaryColor: 'brand',
         }}
       >
         <BrowserRouter>
           <React.Suspense fallback={null}>
             <Navbar />
             <Routes>
-              <Route path="/" element={<></>} />
+              <Route path="/" element={<Shop />} />
               <Route path="/cart" element={<Cart />} />
-              <Route path="/shop" element={<Shop />} />
+              <Route path="/shop" element={<></>} />
               <Route path="/auth" element={<Auth />} />
             </Routes>
           </React.Suspense>

@@ -1,7 +1,15 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import React from 'react';
+import PopularOrder from './components/PopularOrder';
+import Category from './components/Category';
+import { Box, Container } from '@mantine/core';
 
-export function App() {
-  return <div>ashish</div>;
-}
+const App = () => {
+  return (
+    <Box bg="#F5F5F5">
+      <PopularOrder />
+      <Category />
+    </Box>
+  );
+};
 
 export default App;
