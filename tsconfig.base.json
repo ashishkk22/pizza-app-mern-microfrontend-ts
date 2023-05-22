@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@pizza-app/redux-store": ["libs/redux-store/src/index.ts"],
       "@pizza-app/ui-shared": ["libs/ui-shared/src/index.ts"]
     }
   },

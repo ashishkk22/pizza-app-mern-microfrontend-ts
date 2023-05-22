@@ -11,7 +11,13 @@ import {
 
 const PizzaCard = () => {
   return (
-    <Card shadow="sm" padding="lg" radius="md" w={280}>
+    <Card
+      shadow="sm"
+      padding="lg"
+      radius="md"
+      w={280}
+      style={{ alignSelf: 'flex-start' }}
+    >
       <Card.Section component="a" href="#">
         <Image
           src="https://ik.imagekit.io/ashishkk22/Margherita-pizza.svg?updatedAt=1684693393350"
@@ -25,8 +31,8 @@ const PizzaCard = () => {
       </Text>
 
       <Text size="sm" color="dimmed">
-        Juicy chicken fillet and crispy bacon combined with signature tomato
-        sauce, Mozzarella and onions
+        Juicy watermelon and combined with signature tomato sauce, Mozzarella
+        and onions
       </Text>
       <SegmentedControl
         fullWidth

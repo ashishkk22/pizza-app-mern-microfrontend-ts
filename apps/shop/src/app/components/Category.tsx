@@ -40,9 +40,15 @@ const Category = () => {
         })}
       >
         <Tabs.List>
-          <Tabs.Tab value="pizza">Pizza</Tabs.Tab>
-          <Tabs.Tab value="drinks">Drinks</Tabs.Tab>
-          <Tabs.Tab value="souces">Souces</Tabs.Tab>
+          <Tabs.Tab value="pizza">
+            <Title order={6}>Pizza</Title>
+          </Tabs.Tab>
+          <Tabs.Tab value="drinks">
+            <Title order={6}>Drinks</Title>
+          </Tabs.Tab>
+          <Tabs.Tab value="souces">
+            <Title order={6}>Souces</Title>
+          </Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="pizza" pt="xs">

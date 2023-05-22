@@ -1,13 +1,38 @@
-import { StrictMode } from 'react';
-import * as ReactDOM from 'react-dom/client';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import { createRouter } from './routing/router-factory';
+import { RoutingStrategy } from './routing/types';
+import { MantineProvider } from '@mantine/core';
+import { theme } from '@pizza-app/ui-shared';
 
-import App from './app/app';
+const mount = ({
+  mountPoint,
+  initialPathname,
+  routingStrategy,
+}: {
+  mountPoint: HTMLElement;
+  initialPathname?: string;
+  routingStrategy?: RoutingStrategy;
+}) => {
+  const router = createRouter({ strategy: routingStrategy, initialPathname });
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
-root.render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
+  const root = createRoot(mountPoint);
+  root.render(
+    <MantineProvider
+      withNormalizeCSS
+      withGlobalStyles
+      theme={{
+        fontFamily: theme.fontFamily,
+        colors: theme.colors as Record<string, any>,
+        primaryColor: theme.primaryColor,
+      }}
+    >
+      <RouterProvider router={router} />
+    </MantineProvider>
+  );
+
+  return () => queueMicrotask(() => root.unmount());
+};
+
+export { mount };

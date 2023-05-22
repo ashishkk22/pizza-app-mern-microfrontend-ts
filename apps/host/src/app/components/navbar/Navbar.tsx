@@ -1,28 +1,15 @@
 import {
   createStyles,
   Header,
-  HoverCard,
   Group,
   Button,
-  UnstyledButton,
-  Text,
-  SimpleGrid,
-  ThemeIcon,
-  Anchor,
   Divider,
-  Center,
   Box,
   Burger,
   Drawer,
-  Collapse,
   ScrollArea,
   rem,
-  Badge,
-  BackgroundImage,
-  Container,
-  Flex,
   Image,
-  Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
@@ -103,78 +90,20 @@ const Navbar = () => {
   const { classes, theme } = useStyles();
 
   return (
-    <>
-      <Box>
-        <Header height={60} px="md">
-          <Group position="apart" sx={{ height: '100%' }}>
-            <Link to={'/'}>
-              <img src="../../../assets/Logo.svg" alt="Logo" />
-            </Link>
-            <Group
-              sx={{ height: '100%' }}
-              spacing={0}
-              className={classes.hiddenMobile}
-            >
-              <Link to={'/'} className={classes.link}>
-                Menu
-              </Link>
-              <Link to={'/'} className={classes.link}>
-                Orders
-              </Link>
-              <Link to={'/'} className={classes.link}>
-                Cart
-                <Image
-                  width={22}
-                  ml={8}
-                  src="/assets/shopping_basket.svg"
-                  alt="shopping_basket"
-                />
-              </Link>
-            </Group>
-            <Group className={classes.hiddenMobile}>
-              <Button variant="default">Log in</Button>
-              <Button color="red.6">Sign up</Button>
-            </Group>
-            <Burger
-              opened={drawerOpened}
-              onClick={toggleDrawer}
-              className={classes.hiddenDesktop}
+    <Box>
+      <Header height={60} px="md">
+        <Group position="apart" sx={{ height: '100%' }}>
+          <Link to={'/'}>
+            <img
+              src="https://ik.imagekit.io/ashishkk22/Logo.svg?updatedAt=1684731502301"
+              alt="Logo"
             />
-          </Group>
-        </Header>
-
-        <Drawer
-          opened={drawerOpened}
-          onClose={closeDrawer}
-          title="Welcome to Our Platform !"
-          size="100%"
-          padding="sm"
-          className={classes.hiddenDesktop}
-          zIndex={1000000}
-        >
-          <ScrollArea h={`calc(100vh - ${rem(100)})`} mx="-md">
-            <Divider
-              my="sm"
-              color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
-            />
-            {/* <a href="#" className={classes.link}>
-            Home
-          </a>
-          <UnstyledButton className={classes.link} onClick={toggleLinks}>
-            <Center inline>
-              <Box component="span" mr={5}>
-                Features
-              </Box>
-            </Center>
-          </UnstyledButton>
-          <Collapse in={linksOpened}> </Collapse>
-          <a href="#" className={classes.link}>
-            Learn
-          </a>
-          <a href="#" className={classes.link}>
-            Academy
-          </a>
-           */}
+          </Link>
+          <Group
+            sx={{ height: '100%' }}
+            spacing={0}
+            className={classes.hiddenMobile}
+          >
             <Link to={'/'} className={classes.link}>
               Menu
             </Link>
@@ -186,53 +115,74 @@ const Navbar = () => {
               <Image
                 width={22}
                 ml={8}
-                src="/assets/shopping_basket.svg"
+                src="https://ik.imagekit.io/ashishkk22/shopping_basket.svg?updatedAt=1684732991249"
                 alt="shopping_basket"
               />
             </Link>
-            <Divider
-              my="sm"
-              color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
-            />
-            <Group position="center" grow pb="xl" px="md">
+          </Group>
+          <Group className={classes.hiddenMobile}>
+            <Link to="/auth/signin">
               <Button variant="default">Log in</Button>
+            </Link>
+            <Link to="/auth/signup">
               <Button color="red.6">Sign up</Button>
-            </Group>
-          </ScrollArea>
-        </Drawer>
-      </Box>
-      <BackgroundImage src="/assets/banner-bg.svg">
-        <Container py={64}>
-          <Flex
-            direction={{ base: 'column', sm: 'row' }}
-            gap={{ base: 'sm', sm: 'lg' }}
-            justify={{ sm: 'space-between' }}
-            align={{ base: 'center' }}
-          >
-            <Box>
-              <Text m={4} fs="italic">
-                Are you hungry ?
-              </Text>
-              <Title order={1} color="brand.9" m={4}>
-                Get a yummy pizza in 30 min!
-              </Title>
-              <Button radius="lg" m={4} color="red.6">
-                Order now
-              </Button>
-            </Box>
-            <Box>
-              <Image
-                maw={420}
-                mx="auto"
-                radius="md"
-                src="/assets/pizza-banner.svg"
-                alt="Random image"
-              />
-            </Box>
-          </Flex>
-        </Container>
-      </BackgroundImage>
-    </>
+            </Link>
+          </Group>
+          <Burger
+            opened={drawerOpened}
+            onClick={toggleDrawer}
+            className={classes.hiddenDesktop}
+          />
+        </Group>
+      </Header>
+
+      <Drawer
+        opened={drawerOpened}
+        onClose={closeDrawer}
+        title={
+          <Link to={'/'}>
+            <img
+              src="https://ik.imagekit.io/ashishkk22/Logo.svg?updatedAt=1684731502301"
+              alt="Logo"
+            />
+          </Link>
+        }
+        size="100%"
+        padding="sm"
+        className={classes.hiddenDesktop}
+        zIndex={1000000}
+      >
+        <ScrollArea h={`calc(100vh - ${rem(100)})`} mx="-md">
+          <Divider
+            my="sm"
+            color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+          />
+          <Link to={'/'} className={classes.link}>
+            Menu
+          </Link>
+          <Link to={'/'} className={classes.link}>
+            Orders
+          </Link>
+          <Link to={'/'} className={classes.link}>
+            Cart
+            <Image
+              width={22}
+              ml={8}
+              src="https://ik.imagekit.io/ashishkk22/shopping_basket.svg?updatedAt=1684732991249"
+              alt="shopping_basket"
+            />
+          </Link>
+          <Divider
+            my="sm"
+            color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
+          />
+          <Group position="center" grow pb="xl" px="md">
+            <Button variant="default">Log in</Button>
+            <Button color="red.6">Sign up</Button>
+          </Group>
+        </ScrollArea>
+      </Drawer>
+    </Box>
   );
 };
 export default Navbar;
