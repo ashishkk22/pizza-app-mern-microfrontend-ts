@@ -8,9 +8,11 @@ import {
   Button,
   Image,
 } from '@mantine/core';
+import { useStore } from '@pizza-app/redux-store';
 import React from 'react';
 
 const Banner = () => {
+  const { count, increment, decrement } = useStore();
   return (
     <BackgroundImage src="https://ik.imagekit.io/ashishkk22/banner-bg.svg?updatedAt=1684732991188">
       <Container py={64}>
@@ -42,6 +44,7 @@ const Banner = () => {
           </Box>
         </Flex>
       </Container>
+      <Button onClick={increment}>Counter + :{count.value}</Button>
     </BackgroundImage>
   );
 };

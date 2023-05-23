@@ -47,10 +47,11 @@ export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 export function useStore() {
   const count = useAppSelector((state) => state.counter);
+  const dispatch = useDispatch();
   return {
     count,
-    increment: () => store.dispatch(increment()),
-    decrement: () => store.dispatch(decrement()),
+    increment: () => dispatch(increment()),
+    decrement: () => dispatch(decrement()),
   };
 }
 

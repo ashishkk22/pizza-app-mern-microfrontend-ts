@@ -5,6 +5,7 @@ import { createRouter } from './routing/router-factory';
 import { RoutingStrategy } from './routing/types';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '@pizza-app/ui-shared';
+import { StoreProvider } from '@pizza-app/redux-store';
 
 const mount = ({
   mountPoint,
@@ -19,17 +20,19 @@ const mount = ({
 
   const root = createRoot(mountPoint);
   root.render(
-    <MantineProvider
-      withNormalizeCSS
-      withGlobalStyles
-      theme={{
-        fontFamily: theme.fontFamily,
-        colors: theme.colors as Record<string, any>,
-        primaryColor: theme.primaryColor,
-      }}
-    >
-      <RouterProvider router={router} />
-    </MantineProvider>
+    <StoreProvider>
+      <MantineProvider
+        withNormalizeCSS
+        withGlobalStyles
+        theme={{
+          fontFamily: theme.fontFamily,
+          colors: theme.colors as Record<string, any>,
+          primaryColor: theme.primaryColor,
+        }}
+      >
+        <RouterProvider router={router} />
+      </MantineProvider>
+    </StoreProvider>
   );
 
   return () => queueMicrotask(() => root.unmount());

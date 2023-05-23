@@ -1,22 +1,22 @@
 import React from 'react';
 import {
-  Paper,
-  createStyles,
   TextInput,
   PasswordInput,
   Checkbox,
   Button,
-  Title,
   Text,
   Anchor,
-  rem,
   Container,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-
+import { useStore } from '@pizza-app/redux-store';
 const SignIn = () => {
+  const { count, increment, decrement } = useStore();
+  console.log(count.value);
   return (
     <Container size="xs" px="xs" mt={120}>
+      <Button onClick={increment}>Counter + : {count.value}</Button>
+      <Button onClick={decrement}>Counter - : {count.value}</Button>
       <Text fz="xl" ta="center" mt="md" mb={50} weight={500}>
         Welcome Back !
       </Text>
