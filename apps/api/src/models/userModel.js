@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      required: true,
+      default: 'https://robohash.org/pizza-appa',
     },
   },
   { timestamps: true }
