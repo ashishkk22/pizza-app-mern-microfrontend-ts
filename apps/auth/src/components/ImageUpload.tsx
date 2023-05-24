@@ -11,12 +11,12 @@ type ImageInputProps = {
 
 const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
   const handleFile = (file: File | null) => {
+    console.log(file, 'file huuuuui');
     if (file && file.size < 5 * 1024 * 1024) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = async () => {
         const base64 = reader.result as string;
-
         setImage(base64);
         profileUpload(base64);
       };

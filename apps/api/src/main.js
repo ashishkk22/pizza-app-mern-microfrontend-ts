@@ -16,12 +16,13 @@ const imagekit = new ImageKit({
   privateKey: process.env.NX_IMAGE_KIT_PRIVATE_KEY,
 });
 
-const corsOptions = {
-  origin: process.env.NX_CLIENT_LINK,
-  credentials: true,
-};
 app.use(cookieParser());
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: [process.env.NX_CLIENT_LINK, 'http://localhost:4203'],
+    credentials: true,
+  })
+);
 
 app.use(morgan('dev'));
 app.use(express.json());

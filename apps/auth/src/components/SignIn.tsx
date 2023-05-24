@@ -11,14 +11,17 @@ import {
 import { Link } from 'react-router-dom';
 import { useStore } from '@pizza-app/redux-store';
 const SignIn = () => {
-  const { count, increment, decrement } = useStore();
-  console.log(count.value);
+  const { value, increment, decrement } = useStore();
+  console.log(value, 'from the sign in ');
   return (
     <Container size="xs" px="xs" mt={120}>
-      <Button onClick={increment}>Counter + : {count.value}</Button>
-      <Button onClick={decrement}>Counter - : {count.value}</Button>
+      <Button onClick={increment}>Counter + : {value}</Button>
+      <Button onClick={decrement}>Counter - : {value}</Button>
       <Text fz="xl" ta="center" mt="md" mb={50} weight={500}>
-        Welcome Back !
+        Welcome Back !{' '}
+        <span role="img" aria-label="hey emoji">
+          👋
+        </span>
       </Text>
 
       <TextInput

@@ -6,66 +6,140 @@ import {
   Text,
   Anchor,
   Container,
+  PinInput,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import ImageUpload from './ImageUpload';
-import { useState } from 'react';
+import { useReducer, useState } from 'react';
+import { validateSignUp } from '../validations/signup';
+import { isAuth, signup, verifyOtp } from '../config/api';
+import { toast } from 'react-hot-toast';
+import axios from 'axios';
+
+const initialValues = {
+  name: '',
+  email: '',
+  credentials: '',
+  confirmCredentials: '',
+  isLoggedIn: false,
+  otp: '',
+};
 
 export default function AuthenticationImage() {
   const [image, setImage] = useState('https://robohash.org/pizza-appa');
+  const [isOtpSend, toggler] = useReducer((state) => !state, false);
   const largeScreen = useMediaQuery('(min-width:600px)');
+  const [otpHash, setOtpHash] = useState('');
   const form = useForm({
-    initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      terms: true,
-    },
-    validate: {
-      email: (val) =>
-        /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(val)
-          ? null
-          : 'Invalid email',
-      password: (val) =>
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/.test(val)
-          ? 'Password must contain 8 characters, One uppercase, One lowercase, One number and One special case character'
-          : null,
-    },
+    initialValues,
+    validate: (values) => validateSignUp(values, isOtpSend),
   });
+  const submitFormHandler = async (values: typeof initialValues) => {
+    if (!isOtpSend) {
+      try {
+        const { data } = await toast.promise(
+          signup({
+            name: form.values.name,
+            email: form.values.email,
+            password: form.values.credentials,
+            photo: image,
+          }),
+          {
+            loading: 'Loading! Please wait....',
+            success: <div>otp sended successfully</div>,
+            error: <div>Please check the inputs !</div>,
+          }
+        );
+        console.log(data);
+        setOtpHash(data.hash);
+        toggler();
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message);
+      }
+    } else {
+      try {
+        await toast.promise(
+          verifyOtp({
+            email: form.values.email,
+            hash: otpHash,
+            otp: form.values.otp,
+          }),
+          {
+            loading: 'Verifying otp.....',
+            success: <div>Verified ! Signup successfully</div>,
+            error: <div>Please enter valid otp</div>,
+          }
+        );
+        const res = await isAuth();
+        console.log(res.data, 'from isAuth');
+      } catch (error: any) {
+        toast.error(error?.response?.data?.message);
+      }
+    }
+  };
+
   return (
     <Container size="xs" px="xs" mt={largeScreen ? 60 : 20}>
       <ImageUpload image={image} setImage={(url) => setImage(url)} />
-      <TextInput label="Name" placeholder="John Doe" size="md" />
-      <TextInput
-        label="Email address"
-        placeholder="hello@gmail.com"
-        value={form.values.email}
-        onChange={(event) =>
-          form.setFieldValue('email', event.currentTarget.value)
-        }
-        error={form.errors.email && 'Invalid email'}
-        size="md"
-        mt="md"
-      />
-      <PasswordInput
-        label="Password"
-        placeholder="Your password"
-        mt="md"
-        size="md"
-      />
-      <PasswordInput
-        label="Confirm Password"
-        placeholder="Your confirm password"
-        mt="md"
-        size="md"
-      />
-      <Checkbox label="Keep me logged in" mt="xl" size="md" />
-      <Button fullWidth mt="xl" size="md">
-        Sign Up
-      </Button>
-
+      <form onSubmit={form.onSubmit((values) => submitFormHandler(values))}>
+        <TextInput
+          label="Name"
+          placeholder="John Doe"
+          size="md"
+          withAsterisk
+          {...form.getInputProps('name')}
+          disabled={isOtpSend}
+        />
+        <TextInput
+          label="Email address"
+          placeholder="hello@gmail.com"
+          {...form.getInputProps('email')}
+          size="md"
+          mt="md"
+          withAsterisk
+          disabled={isOtpSend}
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          {...form.getInputProps('credentials')}
+          mt="md"
+          size="md"
+          withAsterisk
+          disabled={isOtpSend}
+        />
+        <PasswordInput
+          label="Confirm Password"
+          placeholder="Your confirm password"
+          mt="md"
+          size="md"
+          {...form.getInputProps('confirmCredentials')}
+          withAsterisk
+          disabled={isOtpSend}
+        />
+        {isOtpSend && (
+          <PasswordInput
+            label="Enter otp"
+            placeholder="Your unique otp"
+            mt="md"
+            description="Enter the 6 digit otp that has been sended to the provided email id!"
+            size="md"
+            {...form.getInputProps('otp')}
+            withAsterisk
+          />
+        )}
+        <Checkbox
+          label="Keep me logged in"
+          mt="xl"
+          size="md"
+          {...form.getInputProps('isLoggedIn')}
+        />
+        <Button fullWidth mt="xl" size="md" type="submit">
+          {isOtpSend ? 'Sign Up' : 'Send Otp'}
+        </Button>
+      </form>
       <Text ta="center" mt="md">
         Don&apos;t have an account?{' '}
         <Link to={'/signin'}>

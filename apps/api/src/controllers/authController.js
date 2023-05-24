@@ -6,10 +6,11 @@ const jwt = require('jsonwebtoken');
 //signup user
 module.exports.userSignUp = async (req, res) => {
   let { name, email, password, photo } = req.body;
-  //   let email = emailRaw.toLowerCase();
+  photo = photo ?? 'https://robohash.org/pizza-appa';
+  console.log(name, email, password, photo);
   try {
     //return if body doesn't contain required variable
-    if (!name || !email || !password || !photo) {
+    if (!name || !email || !password) {
       return res.status(400).json({
         message: 'Please fill all the fields',
       });
@@ -40,6 +41,7 @@ module.exports.userSignUp = async (req, res) => {
       otp,
       name,
       email,
+      photo,
     };
     console.log(emailData);
     const str = 'otp';
@@ -50,7 +52,7 @@ module.exports.userSignUp = async (req, res) => {
     return res.status(200).json({
       message: 'Please verify you email id with sended otp',
       email,
-      fullHash,
+      hash: fullHash,
     });
   } catch (error) {
     res.status(500).json({
@@ -61,8 +63,8 @@ module.exports.userSignUp = async (req, res) => {
 
 //verify the user with the sended otp
 module.exports.verifyUser = async function verifyUser(req, res) {
-  const { email: emailRaw, fullHash, otp } = req.body;
-  const email = emailRaw.toLowerCase();
+  const { email, hash: fullHash, otp } = req.body;
+  // const email = emailRaw.toLowerCase();
   try {
     if (!email || !fullHash || !otp) {
       return res.status(400).json({

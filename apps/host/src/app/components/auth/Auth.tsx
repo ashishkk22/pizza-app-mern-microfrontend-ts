@@ -24,6 +24,7 @@ export default () => {
     window.addEventListener('[auth] navigated', app1NavigationEventHandler);
 
     return () => {
+      console.log('auth navigated remove event listner');
       window.removeEventListener(
         '[auth] navigated',
         app1NavigationEventHandler
@@ -43,8 +44,8 @@ export default () => {
   }, [location]);
 
   const isFirstRunRef = useRef(true);
-  const unmountRef = useRef();
-  // Mount app1 MFE
+  const unmountRef = useRef(() => {});
+
   useEffect(() => {
     if (!isFirstRunRef.current) {
       return;
@@ -53,13 +54,11 @@ export default () => {
       mountPoint: wrapperRef.current!,
       initialPathname: location.pathname.replace(app1Basename, ''),
     });
-
+    console.log(unmountRef.current);
     isFirstRunRef.current = false;
   }, [location]);
 
-  useEffect(() => {
-    return () => unmountRef.current;
-  }, []);
+  useEffect(() => () => unmountRef.current(), []);
 
   return <div ref={wrapperRef} id="auth-app" />;
 };

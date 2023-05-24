@@ -21,6 +21,11 @@ const PopularOrder = () => {
         <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/peperoni-p1.svg?updatedAt=1684684047494" />
         <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/peperoni-p1.svg?updatedAt=1684684047494" />
         <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/Four-cheese.svg?updatedAt=1684685021492" />
+        <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/Four-cheese.svg?updatedAt=1684685021492" />
+        <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/Four-cheese.svg?updatedAt=1684685021492" />
+        <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/Four-cheese.svg?updatedAt=1684685021492" />
+        <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/Four-cheese.svg?updatedAt=1684685021492" />
+        <PopularCard imgUrl="https://ik.imagekit.io/ashishkk22/Four-cheese.svg?updatedAt=1684685021492" />
       </Flex>
     </Container>
   );
