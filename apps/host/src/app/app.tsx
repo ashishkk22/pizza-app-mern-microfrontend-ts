@@ -14,9 +14,9 @@ import { CenterLoader } from '@pizza-app/ui-shared';
 import { theme } from '@pizza-app/ui-shared';
 import { StoreProvider } from '@pizza-app/redux-store';
 
-const Cart = React.lazy(() => import('cart/Module'));
 const Shop = React.lazy(() => import('shop/Module'));
 const Auth = React.lazy(() => import('./components/auth/Auth'));
+const Cart = React.lazy(() => import('./components/cart/Cart'));
 
 export function App() {
   return (

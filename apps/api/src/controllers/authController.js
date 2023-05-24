@@ -181,6 +181,7 @@ module.exports.userSignIn = async function userSignIn(req, res) {
   } catch (err) {
     return res.status(500).json({
       message: 'Internal server error',
+      err,
     });
   }
 };

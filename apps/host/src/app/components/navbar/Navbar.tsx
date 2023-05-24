@@ -110,7 +110,7 @@ const Navbar = () => {
             <Link to={'/'} className={classes.link}>
               Orders
             </Link>
-            <Link to={'/'} className={classes.link}>
+            <Link to={'/cart'} className={classes.link}>
               Cart
               <Image
                 width={22}
@@ -163,7 +163,7 @@ const Navbar = () => {
           <Link to={'/'} className={classes.link}>
             Orders
           </Link>
-          <Link to={'/'} className={classes.link}>
+          <Link to={'/cart'} className={classes.link}>
             Cart
             <Image
               width={22}
@@ -176,9 +176,17 @@ const Navbar = () => {
             my="sm"
             color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
           />
-          <Group position="center" grow pb="xl" px="md">
-            <Button variant="default">Log in</Button>
-            <Button color="red.6">Sign up</Button>
+          <Group position="apart" grow pb="xl" px="md">
+            <Link to="/auth/signin" style={{ textDecoration: 'none' }}>
+              <Button variant="default" fullWidth>
+                Log in
+              </Button>
+            </Link>
+            <Link to="/auth/signup" style={{ textDecoration: 'none' }}>
+              <Button color="red.6" fullWidth>
+                Sign up
+              </Button>
+            </Link>
           </Group>
         </ScrollArea>
       </Drawer>

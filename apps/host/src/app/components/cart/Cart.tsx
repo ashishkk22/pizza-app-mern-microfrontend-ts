@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react';
-import { mount } from 'auth/Module';
+import { mount } from 'cart/Module';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { authRoutingPrefix } from '../../constants/mfeRouts';
+import { cartRoutingPrefix } from '../../constants/mfeRouts';
 
-const app1Basename = `/${authRoutingPrefix}`;
+const cartBaseName = `/${cartRoutingPrefix}`;
 
-export default () => {
+const Cart = () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
@@ -14,30 +14,29 @@ export default () => {
     const app1NavigationEventHandler = (event: Event) => {
       const pathname = (event as CustomEvent<string>).detail;
 
-      const newPathname = `${app1Basename}${pathname}`;
+      const newPathname = `${cartBaseName}${pathname}`;
 
       if (newPathname === location.pathname) {
         return;
       }
       navigate(newPathname);
     };
-    window.addEventListener('[auth] navigated', app1NavigationEventHandler);
+    window.addEventListener('[cart] navigated', app1NavigationEventHandler);
 
     return () => {
-      console.log('auth navigated remove event listner');
       window.removeEventListener(
-        '[auth] navigated',
+        '[cart] navigated',
         app1NavigationEventHandler
       );
     };
   }, [location, navigate]);
 
-  // Listen for shell location changes and dispatch a notification.
+  // Listen for host location changes and dispatch a notification.
   useEffect(() => {
-    if (location.pathname.startsWith(app1Basename)) {
+    if (location.pathname.startsWith(cartBaseName)) {
       window.dispatchEvent(
         new CustomEvent('[host] navigated', {
-          detail: location.pathname.replace(app1Basename, ''),
+          detail: location.pathname.replace(cartBaseName, ''),
         })
       );
     }
@@ -62,11 +61,13 @@ export default () => {
     }
     unmountRef.current = mount({
       mountPoint: wrapperRef.current!,
-      initialPathname: location.pathname.replace(app1Basename, ''),
+      initialPathname: location.pathname.replace(cartBaseName, ''),
     });
     console.log(unmountRef.current);
     isFirstRunRef.current = false;
   }, [location]);
 
-  return <div ref={wrapperRef} id="auth-app" />;
+  return <div ref={wrapperRef} id="cart-app" />;
 };
+
+export default Cart;

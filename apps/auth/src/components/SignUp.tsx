@@ -6,7 +6,6 @@ import {
   Text,
   Anchor,
   Container,
-  PinInput,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
@@ -16,7 +15,6 @@ import { useReducer, useState } from 'react';
 import { validateSignUp } from '../validations/signup';
 import { isAuth, signup, verifyOtp } from '../config/api';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
 
 const initialValues = {
   name: '',
@@ -101,24 +99,28 @@ export default function AuthenticationImage() {
           withAsterisk
           disabled={isOtpSend}
         />
-        <PasswordInput
-          label="Password"
-          placeholder="Your password"
-          {...form.getInputProps('credentials')}
-          mt="md"
-          size="md"
-          withAsterisk
-          disabled={isOtpSend}
-        />
-        <PasswordInput
-          label="Confirm Password"
-          placeholder="Your confirm password"
-          mt="md"
-          size="md"
-          {...form.getInputProps('confirmCredentials')}
-          withAsterisk
-          disabled={isOtpSend}
-        />
+        {!isOtpSend && (
+          <>
+            <PasswordInput
+              label="Password"
+              placeholder="Your password"
+              {...form.getInputProps('credentials')}
+              mt="md"
+              size="md"
+              withAsterisk
+              disabled={isOtpSend}
+            />
+            <PasswordInput
+              label="Confirm Password"
+              placeholder="Your confirm password"
+              mt="md"
+              size="md"
+              {...form.getInputProps('confirmCredentials')}
+              withAsterisk
+              disabled={isOtpSend}
+            />
+          </>
+        )}
         {isOtpSend && (
           <PasswordInput
             label="Enter otp"

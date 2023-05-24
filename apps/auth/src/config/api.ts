@@ -32,7 +32,22 @@ type ImgKitUploadRes = {
   width: number;
   thumbnailUrl: string;
 };
-
+type User = {
+  img: string;
+  _id: string;
+  name: string;
+  email: string;
+  phoneNo: string;
+  role: string;
+  activated: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+type UserResponse = {
+  message: string;
+  user: User;
+};
 type SignUpBody = {
   name: string;
   email: string;
@@ -50,6 +65,11 @@ type VerifyOtpBody = {
   otp: string;
 };
 
+type SignInBody = {
+  email: string;
+  password: string;
+};
+
 export const imageKitGenToken = () => API.get<ImgKitTokenRes>('/auth');
 
 export const imageKitUpload = (body: ImgKitUploadData) =>
@@ -60,7 +80,9 @@ export const imageKitUpload = (body: ImgKitUploadData) =>
 export const signup = (data: SignUpBody) =>
   API.post<SignUpRes>('/user/signup', data);
 
-export const verifyOtp = (body: VerifyOtpBody) =>
-  API.post('/user/verify', body);
+export const verifyOtp = (data: VerifyOtpBody) =>
+  API.post('/user/verify', data);
 
-export const isAuth = () => API.get('/user/isAuth');
+export const signin = (data: SignInBody) =>
+  API.post<UserResponse>('/user/signin', data);
+export const isAuth = () => API.get<UserResponse>('/user/isAuth');

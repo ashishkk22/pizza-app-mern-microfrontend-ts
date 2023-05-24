@@ -9,14 +9,41 @@ import {
   Container,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { useStore } from '@pizza-app/redux-store';
+import { useForm } from '@mantine/form';
+import { validateSignIn } from '../validations/signin';
+import { toast } from 'react-hot-toast';
+import { signin } from '../config/api';
+
+const initialValues = {
+  email: '',
+  credentials: '',
+};
+
 const SignIn = () => {
-  const { value, increment, decrement } = useStore();
-  console.log(value, 'from the sign in ');
+  const form = useForm({
+    initialValues,
+    validate: (values) => validateSignIn(values),
+  });
+  const submitFormHandler = async (values: typeof initialValues) => {
+    try {
+      const { data } = await toast.promise(
+        signin({
+          email: form.values.email,
+          password: form.values.credentials,
+        }),
+        {
+          loading: 'Loading! Please wait....',
+          success: <div>SignIn successfully</div>,
+          error: <div>Please check the inputs !</div>,
+        }
+      );
+      console.log(data, 'from signin');
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
   return (
     <Container size="xs" px="xs" mt={120}>
-      <Button onClick={increment}>Counter + : {value}</Button>
-      <Button onClick={decrement}>Counter - : {value}</Button>
       <Text fz="xl" ta="center" mt="md" mb={50} weight={500}>
         Welcome Back !{' '}
         <span role="img" aria-label="hey emoji">
@@ -24,21 +51,33 @@ const SignIn = () => {
         </span>
       </Text>
 
-      <TextInput
-        label="Email address"
-        placeholder="hello@gmail.com"
-        size="md"
-      />
-      <PasswordInput
-        label="Password"
-        placeholder="Your password"
-        mt="md"
-        size="md"
-      />
-      <Checkbox label="Keep me logged in" mt="xl" size="md" />
-      <Button fullWidth mt="xl" size="md">
-        Login
-      </Button>
+      <form onSubmit={form.onSubmit((values) => submitFormHandler(values))}>
+        <TextInput
+          label="Email address"
+          placeholder="hello@gmail.com"
+          {...form.getInputProps('email')}
+          size="md"
+          mt="md"
+          withAsterisk
+        />
+        <PasswordInput
+          label="Password"
+          placeholder="Your password"
+          {...form.getInputProps('credentials')}
+          mt="md"
+          size="md"
+          withAsterisk
+        />
+        <Checkbox
+          label="Keep me logged in"
+          mt="xl"
+          size="md"
+          {...form.getInputProps('isLoggedIn')}
+        />
+        <Button fullWidth mt="xl" size="md" type="submit">
+          Sign In
+        </Button>
+      </form>
 
       <Text ta="center" mt="md">
         Don&apos;t have an account?{' '}
