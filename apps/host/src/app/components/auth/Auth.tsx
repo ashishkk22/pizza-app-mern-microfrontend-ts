@@ -24,7 +24,6 @@ export default () => {
     window.addEventListener('[auth] navigated', app1NavigationEventHandler);
 
     return () => {
-      console.log('auth navigated remove event listner');
       window.removeEventListener(
         '[auth] navigated',
         app1NavigationEventHandler

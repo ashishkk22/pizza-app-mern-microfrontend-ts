@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { toast } from 'react-hot-toast';
 import { publicKey } from '../config/imageKit';
-import { Avatar, Button, Center, FileButton } from '@mantine/core';
+import { Avatar, Button, Center, FileButton, Indicator } from '@mantine/core';
 import { imageKitGenToken, imageKitUpload } from '../config/api';
 
 type ImageInputProps = {
@@ -52,12 +52,14 @@ const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
   return (
     <div className="flex flex-col items-center justify-center mb-4">
       <Center>
-        <Avatar
-          radius="xl"
-          size="lg"
-          style={{ borderRadius: '10rem', width: '7rem', height: '7rem' }}
-          src={image}
-        />
+        <Indicator label="New" size={16}>
+          <Avatar
+            radius="xl"
+            size="lg"
+            style={{ borderRadius: '10rem', width: '7rem', height: '7rem' }}
+            src={image}
+          />
+        </Indicator>
       </Center>
       <Center mt={12}>
         <FileButton

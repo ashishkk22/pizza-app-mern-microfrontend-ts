@@ -1,8 +1,9 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 // import { NavigationManager } from '../components/NavigationManager';
-import Cart from '../components/Cart';
+import Cart from '../components/Cart/Cart';
 import { NavigationManager } from '../components/NavigationManager';
+import Checkout from '../components/Checkout/Checkout';
 
 export const routes = [
   {
@@ -17,15 +18,14 @@ export const routes = [
         index: true,
         element: <Cart />,
       },
-      // {
-      //   // index: true,
-      //   path: 'signup',
-      //   element: <SignUp />,
-      // },
-      // {
-      //   path: 'signin',
-      //   element: <SignIn />,
-      // },
+      {
+        path: 'cart',
+        element: <Cart />,
+      },
+      {
+        path: 'checkout',
+        element: <Checkout />,
+      },
     ],
   },
 ];

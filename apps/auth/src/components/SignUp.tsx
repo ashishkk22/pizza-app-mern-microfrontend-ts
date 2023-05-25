@@ -6,6 +6,7 @@ import {
   Text,
   Anchor,
   Container,
+  Box,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
@@ -79,7 +80,7 @@ export default function AuthenticationImage() {
   };
 
   return (
-    <Container size="xs" px="xs" mt={largeScreen ? 60 : 20}>
+    <Container size="xs" px="xs" pt={largeScreen ? 60 : 20}>
       <ImageUpload image={image} setImage={(url) => setImage(url)} />
       <form onSubmit={form.onSubmit((values) => submitFormHandler(values))}>
         <TextInput

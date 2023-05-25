@@ -13,6 +13,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
+import Logo from './Logo';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -93,12 +94,7 @@ const Navbar = () => {
     <Box>
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
-          <Link to={'/'}>
-            <img
-              src="https://ik.imagekit.io/ashishkk22/Logo.svg?updatedAt=1684731502301"
-              alt="Logo"
-            />
-          </Link>
+          <Logo />
           <Group
             sx={{ height: '100%' }}
             spacing={0}
@@ -110,7 +106,7 @@ const Navbar = () => {
             <Link to={'/'} className={classes.link}>
               Orders
             </Link>
-            <Link to={'/cart'} className={classes.link}>
+            <Link to={'/cart/'} className={classes.link}>
               Cart
               <Image
                 width={22}
@@ -139,14 +135,7 @@ const Navbar = () => {
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
-        title={
-          <Link to={'/'}>
-            <img
-              src="https://ik.imagekit.io/ashishkk22/Logo.svg?updatedAt=1684731502301"
-              alt="Logo"
-            />
-          </Link>
-        }
+        title={<Logo />}
         size="100%"
         padding="sm"
         className={classes.hiddenDesktop}
@@ -163,7 +152,7 @@ const Navbar = () => {
           <Link to={'/'} className={classes.link}>
             Orders
           </Link>
-          <Link to={'/cart'} className={classes.link}>
+          <Link to={'/cart/'} className={classes.link}>
             Cart
             <Image
               width={22}
@@ -177,16 +166,17 @@ const Navbar = () => {
             color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
           />
           <Group position="apart" grow pb="xl" px="md">
-            <Link to="/auth/signin" style={{ textDecoration: 'none' }}>
-              <Button variant="default" fullWidth>
-                Log in
-              </Button>
-            </Link>
-            <Link to="/auth/signup" style={{ textDecoration: 'none' }}>
-              <Button color="red.6" fullWidth>
-                Sign up
-              </Button>
-            </Link>
+            <Button
+              component={Link}
+              variant="default"
+              fullWidth
+              to="/auth/signin"
+            >
+              Log in
+            </Button>
+            <Button to="/auth/signup" component={Link} color="red.6" fullWidth>
+              Sign up
+            </Button>
           </Group>
         </ScrollArea>
       </Drawer>

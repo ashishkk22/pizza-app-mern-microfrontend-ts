@@ -1,5 +1,4 @@
 import { Flex, Loader } from '@mantine/core';
-// import React from 'react';
 
 export const CenterLoader = () => {
   return (
@@ -8,5 +7,3 @@ export const CenterLoader = () => {
     </Flex>
   );
 };
-
-// export  CenterLoader;
