@@ -39,7 +39,7 @@ const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
           fileName: 'user',
         }),
         {
-          loading: 'Uploading file to the server....',
+          loading: 'Uploading file....',
           success: <div>Profile picture uploaded successfully</div>,
           error: <div>An error while uploading profile !</div>,
         }

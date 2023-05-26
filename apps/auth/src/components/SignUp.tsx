@@ -6,7 +6,6 @@ import {
   Text,
   Anchor,
   Container,
-  Box,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
@@ -26,8 +25,8 @@ const initialValues = {
   otp: '',
 };
 
-export default function AuthenticationImage() {
-  const [image, setImage] = useState('https://robohash.org/pizza-appa');
+const SignUp = () => {
+  const [image, setImage] = useState('https://robohash.org/pizza');
   const [isOtpSend, toggler] = useReducer((state) => !state, false);
   const largeScreen = useMediaQuery('(min-width:600px)');
   const [otpHash, setOtpHash] = useState('');
@@ -153,4 +152,6 @@ export default function AuthenticationImage() {
       </Text>
     </Container>
   );
-}
+};
+
+export default SignUp;

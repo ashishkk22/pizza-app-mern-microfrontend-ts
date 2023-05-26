@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const PopularOrder = () => {
   return (
-    <Container py={16}>
+    <Container py={40}>
       <Title color="brand.9" order={3} py={24}>
         Shopping Cart
       </Title>
@@ -21,9 +21,9 @@ const PopularOrder = () => {
           ₹3299
         </Text>
       </Flex>
-      <Flex justify="flex-end">
+      <Flex justify="flex-end" my={10}>
         <Link to="/checkout">
-          <Button mt={22} size="md" radius="xl">
+          <Button mt={22} size="md">
             Order now
           </Button>
         </Link>
