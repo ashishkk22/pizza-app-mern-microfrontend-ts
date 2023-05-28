@@ -23,11 +23,7 @@ const prodConfig = {
    *   ['app2', 'http://example.com/path/to/app2/remoteEntry.js'],
    * ]
    */
-  remotes: [
-    ['cart', 'https://cart-pizza.netlify.app/remoteEntry.js'],
-    ['shop', 'https://shop-pizza1.netlify.app/remoteEntry.js'],
-    ['auth', 'https://auth-pizza.netlify.app/remoteEntry.js'],
-  ],
+  remotes: [],
 };
 
 // Nx plugins for webpack to build config object from Nx options and context.

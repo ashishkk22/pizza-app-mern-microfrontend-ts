@@ -8,7 +8,6 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const ImageKit = require('imagekit');
 const authRouter = require('./routers/authRouter');
-require('dotenv').config();
 
 const imagekit = new ImageKit({
   urlEndpoint: process.env.NX_IMAGE_KIT_URL,
@@ -19,13 +18,33 @@ const imagekit = new ImageKit({
 app.use(cookieParser());
 app.use(
   cors({
-    origin: [process.env.NX_CLIENT_LINK, 'http://localhost:4203'],
+    origin: [
+      process.env.NX_CLIENT_LINK,
+      'http://localhost:4203',
+      'https://pizza-microfrontend.netlify.app',
+      'https://auth-pizza.netlify.app',
+    ],
     credentials: true,
+    exposedHeaders: ['Access-Control-Allow-Private-Network'],
   })
 );
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'https://auth-pizza.netlify.app');
+  if (req.headers['access-control-request-private-network']) {
+    res.header('Access-Control-Allow-Private-Network', 'true'); // Modify this line
+  }
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  next();
+});
 
 const db_link = process.env.NX_MONGODB_URL;
 

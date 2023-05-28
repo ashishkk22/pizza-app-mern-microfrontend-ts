@@ -11,9 +11,9 @@ import {
   rem,
   Image,
 } from '@mantine/core';
-import { Logo } from '@pizza-app/ui-shared';
 import { useDisclosure } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
+import { Logo } from '@pizza-app/ui-shared';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -95,27 +95,6 @@ const Navbar = () => {
       <Header height={60} px="md">
         <Group position="apart" sx={{ height: '100%' }}>
           <Logo />
-          <Group
-            sx={{ height: '100%' }}
-            spacing={0}
-            className={classes.hiddenMobile}
-          >
-            <Link to={'/'} className={classes.link}>
-              Menu
-            </Link>
-            <Link to={'/'} className={classes.link}>
-              Orders
-            </Link>
-            <Link to={'/cart/'} className={classes.link}>
-              Cart
-              <Image
-                width={22}
-                ml={8}
-                src="https://ik.imagekit.io/ashishkk22/shopping_basket.svg?updatedAt=1684732991249"
-                alt="shopping_basket"
-              />
-            </Link>
-          </Group>
           <Group className={classes.hiddenMobile}>
             <Link to="/auth/signin">
               <Button variant="default">Log in</Button>
@@ -146,21 +125,6 @@ const Navbar = () => {
             my="sm"
             color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
           />
-          <Link to={'/'} className={classes.link}>
-            Menu
-          </Link>
-          <Link to={'/'} className={classes.link}>
-            Orders
-          </Link>
-          <Link to={'/cart/'} className={classes.link}>
-            Cart
-            <Image
-              width={22}
-              ml={8}
-              src="https://ik.imagekit.io/ashishkk22/shopping_basket.svg?updatedAt=1684732991249"
-              alt="shopping_basket"
-            />
-          </Link>
           <Divider
             my="sm"
             color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}

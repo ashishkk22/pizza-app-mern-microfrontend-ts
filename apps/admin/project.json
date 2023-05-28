@@ -1,7 +1,7 @@
 {
-  "name": "host",
+  "name": "admin",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/host/src",
+  "sourceRoot": "apps/admin/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -10,16 +10,16 @@
       "defaultConfiguration": "production",
       "options": {
         "compiler": "babel",
-        "outputPath": "dist/apps/host",
-        "index": "apps/host/src/index.html",
+        "outputPath": "dist/apps/admin",
+        "index": "apps/admin/src/index.html",
         "baseHref": "/",
-        "main": "apps/host/src/main.ts",
-        "tsConfig": "apps/host/tsconfig.app.json",
-        "assets": ["apps/host/src/favicon.ico", "apps/host/src/assets"],
-        "styles": ["apps/host/src/styles.css"],
+        "main": "apps/admin/src/main.ts",
+        "tsConfig": "apps/admin/tsconfig.app.json",
+        "assets": ["apps/admin/src/favicon.ico", "apps/admin/src/assets"],
+        "styles": ["apps/admin/src/styles.css"],
         "scripts": [],
         "isolatedConfig": true,
-        "webpackConfig": "apps/host/webpack.config.js"
+        "webpackConfig": "apps/admin/webpack.config.js"
       },
       "configurations": {
         "development": {
@@ -31,8 +31,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/host/src/environments/environment.ts",
-              "with": "apps/host/src/environments/environment.prod.ts"
+              "replace": "apps/admin/src/environments/environment.ts",
+              "with": "apps/admin/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -41,7 +41,7 @@
           "namedChunks": false,
           "extractLicenses": true,
           "vendorChunk": false,
-          "webpackConfig": "apps/host/webpack.config.prod.js"
+          "webpackConfig": "apps/admin/webpack.config.prod.js"
         }
       }
     },
@@ -49,16 +49,16 @@
       "executor": "@nx/react:module-federation-dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "host:build",
+        "buildTarget": "admin:build",
         "hmr": true,
         "port": 4200
       },
       "configurations": {
         "development": {
-          "buildTarget": "host:build:development"
+          "buildTarget": "admin:build:development"
         },
         "production": {
-          "buildTarget": "host:build:production",
+          "buildTarget": "admin:build:production",
           "hmr": false
         }
       }
@@ -67,22 +67,22 @@
       "executor": "@nx/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/host/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/admin/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "serve-static": {
       "executor": "@nx/web:file-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "host:build",
+        "buildTarget": "admin:build",
         "port": 4200
       },
       "configurations": {
         "development": {
-          "buildTarget": "host:build:development"
+          "buildTarget": "admin:build:development"
         },
         "production": {
-          "buildTarget": "host:build:production"
+          "buildTarget": "admin:build:production"
         }
       }
     },
@@ -90,7 +90,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "apps/host/jest.config.ts",
+        "jestConfig": "apps/admin/jest.config.ts",
         "passWithNoTests": true
       },
       "configurations": {
@@ -101,6 +101,5 @@
       }
     }
   },
-  "tags": [],
-  "implicitDependencies": ["shop", "cart", "auth"]
+  "tags": []
 }

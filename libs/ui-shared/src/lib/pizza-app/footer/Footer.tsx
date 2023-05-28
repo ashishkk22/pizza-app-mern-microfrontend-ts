@@ -12,7 +12,7 @@ import {
   IconBrandInstagram,
 } from '@tabler/icons-react';
 import { FC } from 'react';
-import { Logo } from '@pizza-app/ui-shared';
+import { Logo } from '../logo/Logo';
 
 const useStyles = createStyles((theme) => ({
   footer: {
@@ -108,7 +108,7 @@ type FooterProps = {
   }[];
 };
 
-const Footer: FC<FooterProps> = ({ data }) => {
+export const Footer: FC<FooterProps> = ({ data }) => {
   const { classes } = useStyles();
 
   const groups = data.map((group) => {
@@ -163,5 +163,3 @@ const Footer: FC<FooterProps> = ({ data }) => {
     </footer>
   );
 };
-
-export default Footer;
