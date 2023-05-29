@@ -7,7 +7,7 @@ type GrayContainerProps = {
 
 export const GrayContainer: FC<GrayContainerProps> = ({ children }) => {
   return (
-    <Box mih="100vh" bg="#F5F5F5">
+    <Box mih="100vh" bg="#F5F5F5" pb={120}>
       {children}
     </Box>
   );
