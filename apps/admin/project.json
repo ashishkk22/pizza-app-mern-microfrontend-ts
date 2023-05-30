@@ -51,7 +51,7 @@
       "options": {
         "buildTarget": "admin:build",
         "hmr": true,
-        "port": 4200
+        "port": 4204
       },
       "configurations": {
         "development": {
@@ -75,7 +75,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "admin:build",
-        "port": 4200
+        "port": 4204
       },
       "configurations": {
         "development": {
@@ -101,5 +101,6 @@
       }
     }
   },
-  "tags": []
+  "tags": [],
+  "implicitDependencies": ["auth"]
 }

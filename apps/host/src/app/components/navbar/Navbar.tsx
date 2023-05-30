@@ -2,9 +2,7 @@ import {
   createStyles,
   Header,
   Group,
-  Button,
   Divider,
-  Box,
   Burger,
   Drawer,
   ScrollArea,
@@ -14,6 +12,7 @@ import {
 import { Logo } from '@pizza-app/ui-shared';
 import { useDisclosure } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
+import ProfileSection from './ProfileSection';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -87,12 +86,11 @@ const useStyles = createStyles((theme) => ({
 const Navbar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
 
   return (
-    <Box>
-      <Header height={60} px="md">
+    <>
+      <Header height={60} px="md" bg="white">
         <Group position="apart" sx={{ height: '100%' }}>
           <Logo />
           <Group
@@ -116,14 +114,11 @@ const Navbar = () => {
               />
             </Link>
           </Group>
+
           <Group className={classes.hiddenMobile}>
-            <Link to="/auth/signin">
-              <Button variant="default">Log in</Button>
-            </Link>
-            <Link to="/auth/signup">
-              <Button color="red.6">Sign up</Button>
-            </Link>
+            <ProfileSection />
           </Group>
+
           <Burger
             opened={drawerOpened}
             onClick={toggleDrawer}
@@ -131,7 +126,6 @@ const Navbar = () => {
           />
         </Group>
       </Header>
-
       <Drawer
         opened={drawerOpened}
         onClose={closeDrawer}
@@ -166,21 +160,11 @@ const Navbar = () => {
             color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
           />
           <Group position="apart" grow pb="xl" px="md">
-            <Button
-              component={Link}
-              variant="default"
-              fullWidth
-              to="/auth/signin"
-            >
-              Log in
-            </Button>
-            <Button to="/auth/signup" component={Link} color="red.6" fullWidth>
-              Sign up
-            </Button>
+            <ProfileSection isMobile style={classes.link} />
           </Group>
         </ScrollArea>
       </Drawer>
-    </Box>
+    </>
   );
 };
 export default Navbar;

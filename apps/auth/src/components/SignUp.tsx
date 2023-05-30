@@ -6,6 +6,7 @@ import {
   Text,
   Anchor,
   Container,
+  Card,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
@@ -28,8 +29,8 @@ const initialValues = {
 const SignUp = () => {
   const [image, setImage] = useState('https://robohash.org/pizza');
   const [isOtpSend, toggler] = useReducer((state) => !state, false);
-  const largeScreen = useMediaQuery('(min-width:600px)');
   const [otpHash, setOtpHash] = useState('');
+  const largeScreen = useMediaQuery('(min-width:600px)');
   const form = useForm({
     initialValues,
     validate: (values) => validateSignUp(values, isOtpSend),
@@ -39,9 +40,9 @@ const SignUp = () => {
       try {
         const { data } = await toast.promise(
           signup({
-            name: form.values.name,
-            email: form.values.email,
-            password: form.values.credentials,
+            name: values.name,
+            email: values.email,
+            password: values.credentials,
             photo: image,
           }),
           {
@@ -60,9 +61,9 @@ const SignUp = () => {
       try {
         await toast.promise(
           verifyOtp({
-            email: form.values.email,
+            email: values.email,
             hash: otpHash,
-            otp: form.values.otp,
+            otp: values.otp,
           }),
           {
             loading: 'Verifying otp.....',
@@ -70,6 +71,7 @@ const SignUp = () => {
             error: <div>Please enter valid otp</div>,
           }
         );
+        toast.success('Verified ! Signup successfully');
         const res = await isAuth();
         console.log(res.data, 'from isAuth');
       } catch (error: any) {
@@ -80,76 +82,78 @@ const SignUp = () => {
 
   return (
     <Container size="xs" px="xs" pt={largeScreen ? 60 : 20}>
-      <ImageUpload image={image} setImage={(url) => setImage(url)} />
-      <form onSubmit={form.onSubmit((values) => submitFormHandler(values))}>
-        <TextInput
-          label="Name"
-          placeholder="John Doe"
-          size="md"
-          withAsterisk
-          {...form.getInputProps('name')}
-          disabled={isOtpSend}
-        />
-        <TextInput
-          label="Email address"
-          placeholder="hello@gmail.com"
-          {...form.getInputProps('email')}
-          size="md"
-          mt="md"
-          withAsterisk
-          disabled={isOtpSend}
-        />
-        {!isOtpSend && (
-          <>
-            <PasswordInput
-              label="Password"
-              placeholder="Your password"
-              {...form.getInputProps('credentials')}
-              mt="md"
-              size="md"
-              withAsterisk
-              disabled={isOtpSend}
-            />
-            <PasswordInput
-              label="Confirm Password"
-              placeholder="Your confirm password"
-              mt="md"
-              size="md"
-              {...form.getInputProps('confirmCredentials')}
-              withAsterisk
-              disabled={isOtpSend}
-            />
-          </>
-        )}
-        {isOtpSend && (
-          <PasswordInput
-            label="Enter otp"
-            placeholder="Your unique otp"
-            mt="md"
-            description="Enter the 6 digit otp that has been sended to the provided email id!"
+      <Card shadow="sm" padding="lg" radius="md" my={8}>
+        <ImageUpload image={image} setImage={(url) => setImage(url)} />
+        <form onSubmit={form.onSubmit((values) => submitFormHandler(values))}>
+          <TextInput
+            label="Name"
+            placeholder="John Doe"
             size="md"
-            {...form.getInputProps('otp')}
             withAsterisk
+            {...form.getInputProps('name')}
+            disabled={isOtpSend}
           />
-        )}
-        <Checkbox
-          label="Keep me logged in"
-          mt="xl"
-          size="md"
-          {...form.getInputProps('isLoggedIn')}
-        />
-        <Button fullWidth mt="xl" size="md" type="submit">
-          {isOtpSend ? 'Sign Up' : 'Send Otp'}
-        </Button>
-      </form>
-      <Text ta="center" mt="md">
-        Don&apos;t have an account?{' '}
-        <Link to={'/signin'}>
-          <Anchor component="button" weight={700}>
-            Login
-          </Anchor>
-        </Link>
-      </Text>
+          <TextInput
+            label="Email address"
+            placeholder="hello@gmail.com"
+            {...form.getInputProps('email')}
+            size="md"
+            mt="md"
+            withAsterisk
+            disabled={isOtpSend}
+          />
+          {!isOtpSend && (
+            <>
+              <PasswordInput
+                label="Password"
+                placeholder="Your password"
+                {...form.getInputProps('credentials')}
+                mt="md"
+                size="md"
+                withAsterisk
+                disabled={isOtpSend}
+              />
+              <PasswordInput
+                label="Confirm Password"
+                placeholder="Your confirm password"
+                mt="md"
+                size="md"
+                {...form.getInputProps('confirmCredentials')}
+                withAsterisk
+                disabled={isOtpSend}
+              />
+            </>
+          )}
+          {isOtpSend && (
+            <PasswordInput
+              label="Enter otp"
+              placeholder="Your unique otp"
+              mt="md"
+              description="Enter the 6 digit otp that has been sended to the provided email id!"
+              size="md"
+              {...form.getInputProps('otp')}
+              withAsterisk
+            />
+          )}
+          <Checkbox
+            label="Keep me logged in"
+            mt="xl"
+            size="md"
+            {...form.getInputProps('isLoggedIn')}
+          />
+          <Button fullWidth mt="xl" size="md" type="submit">
+            {isOtpSend ? 'Sign Up' : 'Send Otp'}
+          </Button>
+        </form>
+        <Text ta="center" mt="md">
+          Don&apos;t have an account?{' '}
+          <Link to={'/signin'}>
+            <Anchor component="button" weight={700}>
+              Login
+            </Anchor>
+          </Link>
+        </Text>
+      </Card>
     </Container>
   );
 };

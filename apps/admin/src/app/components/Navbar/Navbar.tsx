@@ -87,7 +87,6 @@ const useStyles = createStyles((theme) => ({
 const Navbar = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
-  const [linksOpened, { toggle: toggleLinks }] = useDisclosure(false);
   const { classes, theme } = useStyles();
 
   return (
@@ -96,10 +95,10 @@ const Navbar = () => {
         <Group position="apart" sx={{ height: '100%' }}>
           <Logo />
           <Group className={classes.hiddenMobile}>
-            <Link to="/auth/signin">
+            <Link to="/user/signin">
               <Button variant="default">Log in</Button>
             </Link>
-            <Link to="/auth/signup">
+            <Link to="/user/signup">
               <Button color="red.6">Sign up</Button>
             </Link>
           </Group>
@@ -134,11 +133,11 @@ const Navbar = () => {
               component={Link}
               variant="default"
               fullWidth
-              to="/auth/signin"
+              to="/user/signin"
             >
               Log in
             </Button>
-            <Button to="/auth/signup" component={Link} color="red.6" fullWidth>
+            <Button to="/user/signup" component={Link} color="red.6" fullWidth>
               Sign up
             </Button>
           </Group>

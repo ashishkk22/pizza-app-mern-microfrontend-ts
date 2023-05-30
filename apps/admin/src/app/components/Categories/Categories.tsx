@@ -10,11 +10,11 @@ import {
 } from '@mantine/core';
 import React, { useState } from 'react';
 import { IconSearch } from '@tabler/icons-react';
+import CategoryList from './CategoryList';
 import { useDisclosure } from '@mantine/hooks';
-import PromosList from './PromosList';
-import AddPromo from './AddPromo';
+import AddCategory from './AddCategory';
 
-const Promos = () => {
+const Categories = () => {
   const [search, setSearch] = useState('');
   const [opened, { open, close }] = useDisclosure(false);
   const filterResetHandler = () => {
@@ -26,15 +26,15 @@ const Promos = () => {
         <Flex align="center" gap={16} justify="space-between" wrap="wrap">
           <Flex gap={10} justify="center" align="center" wrap="wrap">
             <Image
-              src="https://ik.imagekit.io/ashishkk22/pizza/Coupon-icon.svg"
+              src="https://ik.imagekit.io/ashishkk22/pizza/Group_150.svg"
               width={34}
             />
-            <Text fz="md">Promos</Text>
+            <Text fz="md">Products</Text>
           </Flex>
           <Flex gap={10} justify="center" align="center" wrap="wrap">
             <Input
               icon={<IconSearch />}
-              placeholder="Search promos by name ..."
+              placeholder="Search product by name ..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -51,12 +51,12 @@ const Promos = () => {
           </Flex>
         </Flex>
       </Card>
-      <PromosList currentQuery={search} />
+      <CategoryList currentQuery={search} />
       <Modal opened={opened} onClose={close} title="Add Address" centered>
-        <AddPromo />
+        <AddCategory />
       </Modal>
     </Container>
   );
 };
 
-export default Promos;
+export default Categories;

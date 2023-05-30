@@ -33,7 +33,7 @@ type ImgKitUploadRes = {
   thumbnailUrl: string;
 };
 type User = {
-  img: string;
+  photo: string;
   _id: string;
   name: string;
   email: string;
@@ -47,6 +47,7 @@ type User = {
 type UserResponse = {
   message: string;
   user: User;
+  TOKEN: string;
 };
 type SignUpBody = {
   name: string;

@@ -3,7 +3,6 @@ import {
   Card,
   Image,
   Text,
-  Badge,
   Button,
   Group,
   SegmentedControl,
@@ -40,13 +39,7 @@ const PizzaCard = () => {
         radius={16}
         my={8}
         color="gray.5"
-      />
-      <SegmentedControl
-        fullWidth
-        radius={16}
-        data={['Thick', 'Thin']}
-        my={8}
-        color="gray.5"
+        onChange={(value) => console.log(value)}
       />
       <Group position="apart" mt="md" mb="xs">
         <Text weight={500}> ₹ 500</Text>

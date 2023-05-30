@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { publicKey } from '../config/imageKit';
 import { Avatar, Button, Center, FileButton, Indicator } from '@mantine/core';
@@ -10,8 +10,9 @@ type ImageInputProps = {
 };
 
 const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleFile = (file: File | null) => {
-    console.log(file, 'file huuuuui');
     if (file && file.size < 5 * 1024 * 1024) {
       const reader = new FileReader();
       reader.readAsDataURL(file);
@@ -25,6 +26,7 @@ const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
     }
   };
   const profileUpload = async (base64: string) => {
+    setLoading(true);
     try {
       const response = await imageKitGenToken();
       const { expire, signature, token } = response.data;
@@ -45,12 +47,13 @@ const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
         }
       );
       setImage(res.data.url);
+      setLoading(false);
     } catch (error) {
       toast.error('An error while uploading profile !');
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center mb-4">
+    <>
       <Center>
         <Indicator label="New" size={16}>
           <Avatar
@@ -67,13 +70,19 @@ const ImageInput: FC<ImageInputProps> = ({ image, setImage }) => {
           accept="image/png,image/jpeg,image/jpg,image/svg,image/gif,image/webp"
         >
           {(props) => (
-            <Button variant="subtle" color="red" compact {...props}>
+            <Button
+              variant="subtle"
+              color="red"
+              compact
+              {...props}
+              loading={loading}
+            >
               Change Profile Picture
             </Button>
           )}
         </FileButton>
       </Center>
-    </div>
+    </>
   );
 };
 

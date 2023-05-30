@@ -12,6 +12,7 @@ import Promos from './components/Promos/Promos';
 import Orders from './components/Orders/Orders';
 import OrderDetails from './components/Orders/OrderDetails';
 import CreateProduct from './components/Products/CreateProduct/CreateProduct';
+import Categories from './components/Categories/Categories';
 
 export function App() {
   return (
@@ -42,6 +43,7 @@ export function App() {
                 <Route path="/orders/:orderId" element={<OrderDetails />} />
                 <Route path="/products" element={<Products />} />
                 <Route path="/products/create" element={<CreateProduct />} />
+                <Route path="/categories" element={<Categories />} />
                 <Route path="/promos" element={<Promos />} />
               </Routes>
             </AppShell>

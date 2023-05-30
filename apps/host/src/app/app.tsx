@@ -49,7 +49,7 @@ const App = () => {
                 />
                 <Route path="/shop/*" element={<></>} />
                 <Route
-                  path="/auth/*"
+                  path="/user/*"
                   element={
                     <React.Suspense fallback={<CenterLoader />}>
                       <Auth />

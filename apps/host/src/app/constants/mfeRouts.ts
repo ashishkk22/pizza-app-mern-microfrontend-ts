@@ -1,2 +1,2 @@
-export const authRoutingPrefix = 'auth';
+export const authRoutingPrefix = 'user';
 export const cartRoutingPrefix = 'cart';

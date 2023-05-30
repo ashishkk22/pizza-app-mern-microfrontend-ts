@@ -3,7 +3,7 @@ import {
   IconHome2,
   IconToolsKitchen2,
   IconBriefcase,
-  IconReportAnalytics,
+  IconCategory,
   IconGift,
   IconLogout,
   IconSwitchHorizontal,
@@ -81,6 +81,7 @@ const sideBarData = [
   { icon: IconHome2, label: 'Home' },
   { icon: IconBriefcase, label: 'Orders' },
   { icon: IconToolsKitchen2, label: 'Products' },
+  { icon: IconCategory, label: 'Categories' },
   { icon: IconGift, label: 'Promos' },
 ];
 

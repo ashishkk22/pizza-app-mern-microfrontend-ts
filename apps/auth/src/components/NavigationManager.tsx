@@ -13,7 +13,6 @@ export function NavigationManager({ children }: NavigationManagerProps) {
   useEffect(() => {
     function shellNavigationHandler(event: Event) {
       const pathname = (event as CustomEvent<string>).detail;
-
       if (
         location.pathname === pathname ||
         !matchRoutes(routes, { pathname })
@@ -32,9 +31,10 @@ export function NavigationManager({ children }: NavigationManagerProps) {
 
   useEffect(() => {
     window.dispatchEvent(
-      new CustomEvent('[auth] navigated', { detail: location.pathname })
+      new CustomEvent('[user] navigated', { detail: location.pathname })
     );
   }, [location]);
 
+  if (location.pathname === '/') return <></>;
   return children;
 }

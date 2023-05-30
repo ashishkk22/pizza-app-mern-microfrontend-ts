@@ -4,7 +4,6 @@ import {
   Container,
   Flex,
   NumberInput,
-  SegmentedControl,
   Switch,
   Text,
   TextInput,

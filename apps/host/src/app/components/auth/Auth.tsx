@@ -3,40 +3,43 @@ import { mount } from 'auth/Module';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { authRoutingPrefix } from '../../constants/mfeRouts';
 
-const app1Basename = `/${authRoutingPrefix}`;
+const authAppName = `/${authRoutingPrefix}`;
 
 export default () => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
   const location = useLocation();
-  // Listen to navigation events dispatched inside app1 mfe.
+  // Listen to navigation events dispatched inside auth mfe.
   useEffect(() => {
     const app1NavigationEventHandler = (event: Event) => {
       const pathname = (event as CustomEvent<string>).detail;
+      const newPathname = `${authAppName}${pathname}`;
 
-      const newPathname = `${app1Basename}${pathname}`;
+      if (newPathname === location.pathname) return;
 
-      if (newPathname === location.pathname) {
+      //as the on the home we are redirecting to host home
+      if (pathname === '/') {
+        navigate('/');
         return;
       }
       navigate(newPathname);
     };
-    window.addEventListener('[auth] navigated', app1NavigationEventHandler);
+    window.addEventListener('[user] navigated', app1NavigationEventHandler);
 
     return () => {
       window.removeEventListener(
-        '[auth] navigated',
+        '[user] navigated',
         app1NavigationEventHandler
       );
     };
   }, [location, navigate]);
 
-  // Listen for shell location changes and dispatch a notification.
+  // Listen for host location changes and dispatch a notification.
   useEffect(() => {
-    if (location.pathname.startsWith(app1Basename)) {
+    if (location.pathname.startsWith(authAppName)) {
       window.dispatchEvent(
         new CustomEvent('[host] navigated', {
-          detail: location.pathname.replace(app1Basename, ''),
+          detail: location.pathname.replace(authAppName, ''),
         })
       );
     }
@@ -61,9 +64,8 @@ export default () => {
     }
     unmountRef.current = mount({
       mountPoint: wrapperRef.current!,
-      initialPathname: location.pathname.replace(app1Basename, ''),
+      initialPathname: location.pathname.replace(authAppName, ''),
     });
-    console.log(unmountRef.current);
     isFirstRunRef.current = false;
   }, [location]);
 

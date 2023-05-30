@@ -14,11 +14,6 @@ export const routes = [
     ),
     children: [
       {
-        index: true,
-        element: <SignUp />,
-      },
-      {
-        // index: true,
         path: 'signup',
         element: <SignUp />,
       },

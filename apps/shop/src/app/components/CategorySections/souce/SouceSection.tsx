@@ -12,14 +12,14 @@ const SouceSection = () => {
         direction="row"
         wrap="wrap"
       >
+        {/* <DrinkCard />
         <DrinkCard />
         <DrinkCard />
         <DrinkCard />
         <DrinkCard />
         <DrinkCard />
         <DrinkCard />
-        <DrinkCard />
-        <DrinkCard />
+        <DrinkCard /> */}
       </Flex>
     </Container>
   );
