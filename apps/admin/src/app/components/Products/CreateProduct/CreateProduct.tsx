@@ -4,6 +4,7 @@ import {
   Container,
   Flex,
   NumberInput,
+  Select,
   Switch,
   Text,
   TextInput,
@@ -11,8 +12,19 @@ import {
 } from '@mantine/core';
 import React, { useState } from 'react';
 import ImageUpload from './ImageUpload';
+import { useQuery } from '@tanstack/react-query';
+import { getAllCategories } from '../../../utils/api';
 
 const CreateProduct = () => {
+  const [category, setCategory] = useState('');
+
+  const { data } = useQuery(['selectCategory'], getAllCategories);
+
+  const categoryArray =
+    data?.data.categories.map((category) => {
+      return { value: category.name, label: category.name.toUpperCase() };
+    }) ?? [];
+
   return (
     <Container>
       <Card shadow="sm" padding="lg" radius="md" my={8} w={'100%'}>
@@ -25,11 +37,14 @@ const CreateProduct = () => {
           mt="md"
           withAsterisk
         />
-        <TextInput
-          label="Product category"
-          placeholder="Enter product category"
+        <Select
+          label="Product Category"
+          placeholder="Category"
+          data={categoryArray}
+          withinPortal
           mt="md"
-          withAsterisk
+          value={category}
+          onChange={(e) => e && setCategory(e)}
         />
         <Textarea
           label="Description"
@@ -50,9 +65,7 @@ const CreateProduct = () => {
           Product price
         </Text>
         <Flex gap={6} w={'100%'} justify="space-between" wrap="wrap">
-          <NumberInput label="Small" placeholder="522" mt="md" withAsterisk />
-          <NumberInput label="Medium" placeholder="22" mt="md" withAsterisk />
-          <NumberInput label="Large" placeholder="522" mt="md" withAsterisk />
+          <NumberInput label="Price" placeholder="522" mt="md" withAsterisk />
         </Flex>
       </Card>
 

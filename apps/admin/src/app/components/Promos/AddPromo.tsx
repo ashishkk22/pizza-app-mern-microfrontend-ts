@@ -2,15 +2,15 @@ import { Button, Container, Switch, TextInput } from '@mantine/core';
 import React from 'react';
 import { useForm } from '@mantine/form';
 
-const AddPromo = () => {
+//getting closeModal and tatalPage so that we can invalidate the last page only any we don't have to refetch all the pages
+const ManagePromo = () => {
   const form = useForm({
     initialValues: {
-      category: '',
+      coupon: '',
     },
-
     validate: {
-      category: (val) =>
-        val.length <= 2 ? 'Please enter the valid category name!' : null,
+      coupon: (val) =>
+        val.length <= 2 ? 'Please enter the valid coupon name!' : null,
     },
   });
   return (
@@ -21,12 +21,12 @@ const AddPromo = () => {
         })}
       >
         <TextInput
-          label="Category Name"
-          placeholder="Enter the category"
+          label="Coupon Name"
+          placeholder="Enter the coupon"
           size="md"
           mt="md"
           withAsterisk
-          {...form.getInputProps('category')}
+          {...form.getInputProps('coupon')}
         />
         <Switch label="Publish" my={18} />
         <Button fullWidth mt="xl" size="md" type="submit">
@@ -37,4 +37,4 @@ const AddPromo = () => {
   );
 };
 
-export default AddPromo;
+export default ManagePromo;
