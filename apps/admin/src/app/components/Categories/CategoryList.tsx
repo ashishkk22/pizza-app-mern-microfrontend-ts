@@ -45,24 +45,23 @@ const CategoryList: FC<CategoryListProps> = ({
   });
 
   //table rows based on the category data
-  const rows = filteredData.map((element, index) => {
-    const status = getProductStatus(element.status);
-    const badgeColor = getBadgeColor(element.status);
+  const rows = filteredData.map((category, index) => {
+    const badgeColor = getBadgeColor(category.status);
     return (
       <tr
-        key={element.name + index}
+        key={category.name + index}
         style={{ cursor: 'pointer' }}
         onClick={() =>
-          setCurrentCategory(element.name, element._id, element.status)
+          setCurrentCategory(category.name, category._id, category.status)
         }
       >
         <td>
-          <Text fw={600}>{element.name}</Text>
+          <Text fw={600}>{category.name}</Text>
         </td>
         <td>
-          <Badge color={badgeColor}>{status}</Badge>
+          <Badge color={badgeColor}>{category.status}</Badge>
         </td>
-        <td>{element.createdAt.substring(0, 10)}</td>
+        <td>{category.createdAt.substring(0, 10)}</td>
       </tr>
     );
   });

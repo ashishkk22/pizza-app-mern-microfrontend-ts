@@ -1,12 +1,5 @@
 import React, { FC, useReducer } from 'react';
-import {
-  Button,
-  Container,
-  Switch,
-  TextInput,
-  Input,
-  Divider,
-} from '@mantine/core';
+import { Button, Container, Switch, TextInput, Input } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
@@ -71,13 +64,14 @@ const AddCategory: FC<AddCategoryProps> = ({
     onSuccess: () => {
       //invalidate the last page
       queryClient.invalidateQueries({
-        queryKey: ['categories', totalPage, 'selectCategory'],
+        queryKey: ['categories', totalPage],
       });
       if (currentPage === 1) {
         queryClient.invalidateQueries({
-          queryKey: ['categories', 'selectCategory'],
+          queryKey: ['categories'],
         });
       }
+      selectCategoryInvalidate();
       closeModel();
       toast.success('Category Created successfully !');
     },
@@ -94,6 +88,7 @@ const AddCategory: FC<AddCategoryProps> = ({
       queryClient.invalidateQueries({
         queryKey: ['categories', currentPage],
       });
+      selectCategoryInvalidate();
       closeModel?.();
       toast.success('Category updated successfully !');
     },
@@ -107,12 +102,19 @@ const AddCategory: FC<AddCategoryProps> = ({
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['categories', 'selectCategory'],
+        queryKey: ['categories'],
       });
+      selectCategoryInvalidate();
       closeModel?.();
       toast.success('Category deleted successfully');
     },
   });
+
+  const selectCategoryInvalidate = () => {
+    queryClient.invalidateQueries({
+      queryKey: ['selectCategory'],
+    });
+  };
 
   return (
     <Container size="xs" px="xs">

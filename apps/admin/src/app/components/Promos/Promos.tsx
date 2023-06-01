@@ -5,6 +5,7 @@ import {
   Flex,
   Image,
   Input,
+  Loader,
   Modal,
   Text,
 } from '@mantine/core';
@@ -43,7 +44,7 @@ const Promos = () => {
   };
 
   //if entire last page is deleted then reduce the page number
-  if (data?.data.categories.length === 0 && page > 1) {
+  if (data?.data?.coupons?.length === 0 && page > 1) {
     setPage((page) => page - 1);
   }
 
@@ -84,10 +85,42 @@ const Promos = () => {
           </Flex>
         </Flex>
       </Card>
-
-      <PromosList currentQuery={search} />
+      {data?.data?.coupons ? (
+        <PromosList
+          data={data.data.coupons}
+          totalPage={data.data?.totalPages}
+          setCurrentPage={(page: number) => setPage(page)}
+          currentPage={page}
+          currentQuery={search}
+          tableHeading={[
+            'Coupon Name',
+            'Off percentage',
+            'Status',
+            'Created At',
+          ]}
+          setCurrentCoupon={(
+            name: string,
+            id: string,
+            percentage: number,
+            status: string
+          ) => {
+            setCurrentCoupon({ name, id, status, percentage });
+            open();
+          }}
+        />
+      ) : (
+        <Flex justify="center">
+          <Loader />
+        </Flex>
+      )}
+      {/* <PromosList currentQuery={search} /> */}
       <Modal opened={opened} onClose={close} title="Add Address" centered>
-        <AddPromo />
+        <AddPromo
+          closeModel={close}
+          totalPage={data?.data?.totalDoc}
+          currentCoupon={currentCoupon}
+          currentPage={page}
+        />
       </Modal>
     </Container>
   );

@@ -44,14 +44,14 @@ export type Coupon = {
 
 export type GetCouponResponse = {
   message: string;
-  categories: Coupon[];
+  coupons: Coupon[];
   totalDoc: number;
   totalPages: number;
 };
 
 export type CreateCouponBody = {
   couponName: string;
-  percentage: string;
+  percentage: number;
   status: string;
 };
 
@@ -59,7 +59,7 @@ export type UpdateCouponBody = {
   couponId: string;
   updatedName: string;
   updatedStatus: string;
-  updatedPercentage: string;
+  updatedPercentage: number;
 };
 
 export type DeleteCouponBody = {
