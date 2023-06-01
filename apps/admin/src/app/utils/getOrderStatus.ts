@@ -1,9 +1,3 @@
-enum DeliveryStatus {
-  preparing,
-  onTheWay,
-  Delivery,
-}
-
 export const getOrderStatus = (status: number) => {
   switch (status) {
     case 0:

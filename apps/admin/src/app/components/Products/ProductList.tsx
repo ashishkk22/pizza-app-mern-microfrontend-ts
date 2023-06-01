@@ -9,148 +9,90 @@ import {
   Text,
 } from '@mantine/core';
 import React, { FC } from 'react';
-import { getProductStatus, getBadgeColor } from '../../utils/getProductStatus';
-
-const elements = [
-  {
-    name: 'Pepperoni Pizza',
-    category: 'Pizza',
-    image:
-      'https://ik.imagekit.io/ashishkk22/pizza-banner.svg?updatedAt=1684733181767',
-    description: 'Lorem ipsum dolor sit amet consecteturenetur!',
-    createdAt: '22 january 2002',
-    status: 'published',
-  },
-  {
-    name: 'Juice Orange',
-    category: 'Cold drinks',
-    image:
-      'https://ik.imagekit.io/ashishkk22/juice-orange.svg?updatedAt=1684695220145',
-    description: 'Lorem ipsum do runt magni similique sequi tenetur!',
-    createdAt: '22 january 2002',
-    status: 'draft',
-  },
-  {
-    name: 'Margherita Pizza',
-    category: 'Cold drinks',
-    size: 'small',
-    image:
-      'https://ik.imagekit.io/ashishkk22/Margherita-pizza.svg?updatedAt=1684693393350',
-    description: 'Lorem ipsum d serunt magni similique sequi tenetur!',
-    createdAt: '22 january 2002',
-    status: 'published',
-  },
-  {
-    name: 'Juice Orange',
-    category: 'Juice',
-    image:
-      'https://ik.imagekit.io/ashishkk22/juice-orange.svg?updatedAt=1684695220145',
-    description:
-      'Lorem ipsum dolor s sMaxime deserunt magni similique sequi tenetur!',
-    createdAt: '22 january 2002',
-    status: 'draft',
-  },
-  {
-    name: 'Pepperoni Pizza',
-    category: 'Pizza',
-    image:
-      'https://ik.imagekit.io/ashishkk22/pizza-banner.svg?updatedAt=1684733181767',
-    description: 'Lorem ipsum dolor sit amet consecteturenetur!',
-    createdAt: '22 january 2002',
-    status: 'published',
-  },
-  {
-    name: 'Juice Orange',
-    category: 'Cold drinks',
-    image:
-      'https://ik.imagekit.io/ashishkk22/juice-orange.svg?updatedAt=1684695220145',
-    description: 'Lorem ipsum do runt magni similique sequi tenetur!',
-    createdAt: '22 january 2002',
-    status: 'draft',
-  },
-  {
-    name: 'Margherita Pizza',
-    category: 'Cold drinks',
-    size: 'small',
-    image:
-      'https://ik.imagekit.io/ashishkk22/Margherita-pizza.svg?updatedAt=1684693393350',
-    description: 'Lorem ipsum d serunt magni similique sequi tenetur!',
-    createdAt: '22 january 2002',
-    status: 'published',
-  },
-  {
-    name: 'Juice Orange',
-    category: 'Juice',
-    image:
-      'https://ik.imagekit.io/ashishkk22/juice-orange.svg?updatedAt=1684695220145',
-    description:
-      'Lorem ipsum dolor s sMaxime deserunt magni similique sequi tenetur!',
-    createdAt: '22 january 2002',
-    status: 'draft',
-  },
-];
+import { Product } from '../../utils/endPoint.type';
+import { useNavigate } from 'react-router-dom';
+import { getBadgeColor } from '../../utils/getBadgeColor';
 
 type ProductListProps = {
+  data: Product[];
+  tableHeading: string[];
   currentCategory: string;
   currentStatus: string;
   currentQuery: string;
+  totalPage: number;
+  setCurrentPage: (page: number) => void;
+  currentPage: number;
 };
 
 const ProductList: FC<ProductListProps> = ({
   currentCategory = '',
   currentStatus = '',
   currentQuery = '',
+  tableHeading,
+  data,
+  setCurrentPage,
+  totalPage,
+  currentPage,
 }) => {
+  //header of the table
   const ths = (
     <tr>
-      <th>Product Image</th>
-      <th>Product name</th>
-      <th>Description</th>
-      <th>Category</th>
-      <th>Status</th>
-      <th>Created At</th>
+      {tableHeading.map((heading) => {
+        return <th key={heading}>{heading}</th>;
+      })}
     </tr>
   );
-  const filteredData = elements.filter((order) => {
+
+  //filtered data from the applied filters
+  const filteredData = data.filter((order) => {
+    const status = order.publish ? 'published' : 'draft';
     return (
       order.name.toLowerCase().includes(currentQuery.toLowerCase()) &&
-      order.status.toLowerCase().includes(currentStatus.toLowerCase()) &&
+      status.toLowerCase().includes(currentStatus.toLowerCase()) &&
       order.category.toLowerCase().includes(currentCategory.toLowerCase())
     );
   });
 
-  const rows = filteredData.map((element, index) => {
-    const status = getProductStatus(element.status);
-    const badgeColor = getBadgeColor(element.status);
+  //navigate instance
+  const navigate = useNavigate();
+
+  //row of the table
+  const rows = filteredData.map((product, index) => {
+    const status = product.publish ? 'published' : 'draft';
+    const badgeColor = getBadgeColor(status);
+
     return (
-      <tr key={element.name + index} style={{ cursor: 'pointer' }}>
+      <tr
+        key={product.name + index}
+        style={{ cursor: 'pointer' }}
+        onClick={() => navigate('/products/edit', { state: product })}
+      >
         <td>
           <Flex w={70}>
-            <Image src={element.image} alt={element.name} />
+            <Image src={product.image} alt={product.name} />
           </Flex>
         </td>
         <td>
-          <Flex justify="center" gap={10} align="center">
-            <Text fw={600}>{element.name}</Text>
-          </Flex>
+          <Text fw={600}>{product.name}</Text>
         </td>
         <td>
-          <Text>{element.description}</Text>
+          <Text>{product.description}</Text>
         </td>
         <td>
-          <Text>{element.category}</Text>
+          <Text tt="uppercase">{product.category}</Text>
         </td>
         <td>
           <Badge color={badgeColor}>{status}</Badge>
         </td>
-        <td>{element.createdAt}</td>
+        <td>{product.createdAt.substring(0, 10)}</td>
       </tr>
     );
   });
+
   return (
     <Card shadow="sm" padding="lg" radius="md" my={8}>
       <ScrollArea w={'100%'}>
-        {rows.length > 1 ? (
+        {rows.length >= 1 ? (
           <>
             <Table
               horizontalSpacing="lg"
@@ -162,7 +104,13 @@ const ProductList: FC<ProductListProps> = ({
               <tbody style={{ border: 0 }}>{rows}</tbody>
             </Table>
             <Flex justify="flex-end" my={20}>
-              <Pagination total={2} size="md" />
+              <Pagination
+                total={totalPage}
+                size="md"
+                value={currentPage}
+                onChange={(page) => setCurrentPage(page)}
+                siblings={1}
+              />
             </Flex>
           </>
         ) : (
