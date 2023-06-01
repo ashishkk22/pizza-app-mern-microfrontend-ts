@@ -63,7 +63,7 @@ const Categories = () => {
               src="https://ik.imagekit.io/ashishkk22/pizza/Group_150.svg"
               width={34}
             />
-            <Text fz="md">Products</Text>
+            <Text fz="md">Categories</Text>
           </Flex>
           <Flex gap={10} justify="center" align="center" wrap="wrap">
             <Input

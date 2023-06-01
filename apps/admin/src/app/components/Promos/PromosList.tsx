@@ -8,8 +8,8 @@ import {
   Text,
 } from '@mantine/core';
 import React, { FC } from 'react';
-import { getBadgeColor } from '../../utils/getPromoStatus';
 import { Coupon } from '../../utils/endPoint.type';
+import { getBadgeColor } from '../../utils/getBadgeColor';
 
 type PromosListProps = {
   currentQuery: string;

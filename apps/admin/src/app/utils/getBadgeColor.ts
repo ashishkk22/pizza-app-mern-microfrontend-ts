@@ -3,6 +3,8 @@ export const getBadgeColor = (status: string) => {
   switch (productStatus) {
     case 'draft':
       return 'gray.6';
+    case 'published':
+      return 'green';
     case 'valid':
       return 'green';
   }

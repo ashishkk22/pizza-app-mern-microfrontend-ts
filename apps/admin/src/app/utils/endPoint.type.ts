@@ -66,8 +66,71 @@ export type DeleteCouponBody = {
   couponId: string;
 };
 
+/** imagekit related endpoint's body and responses */
+
 export type ImgKitTokenRes = {
   token: string;
   expire: number;
   signature: string;
+};
+
+export type ImgKitUploadData = {
+  useUniqueFileName: boolean;
+  file: string;
+  publicKey: string;
+  fileName: string;
+} & ImgKitTokenRes;
+
+export type ImgKitUploadRes = {
+  fileId: string;
+  name: string;
+  size: number;
+  filePath: string;
+  url: string;
+  fileType: string;
+  height: number;
+  width: number;
+  thumbnailUrl: string;
+};
+
+// ============ product related endpoint's body and res. ==========//
+
+export type Product = {
+  _id: string;
+  name: string;
+  user: string;
+  category: string;
+  description: string;
+  image: string;
+  price: number;
+  hit: boolean;
+  publish: boolean;
+  available: boolean;
+  createdAt: string;
+};
+
+export type GetProductResponse = {
+  message: string;
+  items: Product[];
+  totalDoc: number;
+  totalPages: number;
+};
+
+export type CreateProductBody = {
+  name: string;
+  category: string;
+  description: string;
+  image: string;
+  price: number;
+  hit: boolean;
+  publish: boolean;
+  available: boolean;
+};
+
+export type UpdateProductBody = {
+  id: string;
+} & CreateProductBody;
+
+export type DeleteProductBody = {
+  id: string;
 };

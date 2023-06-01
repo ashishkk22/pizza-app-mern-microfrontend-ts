@@ -8,8 +8,8 @@ import {
   Text,
 } from '@mantine/core';
 import React, { FC } from 'react';
-import { getProductStatus, getBadgeColor } from '../../utils/getProductStatus';
 import { Category } from '../../utils/endPoint.type';
+import { getBadgeColor } from '../../utils/getBadgeColor';
 
 type CategoryListProps = {
   currentQuery: string;
