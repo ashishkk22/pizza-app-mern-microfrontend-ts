@@ -1,20 +1,10 @@
-import React, { useRef } from 'react';
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  Flex,
-  Loader,
-  Text,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import React, { useRef, useState } from 'react';
+import { Button, Container, Flex, Title } from '@mantine/core';
 import AddressSection from './Address/AddressSection';
 import PaymentTypeSection from './PaymentType/PaymentTypeSection';
-import RestaurantSection from './Restaurant/RestaurantSection';
 import PaymentSummary from './PaymentSummary/PaymentSummary';
 import CouponSection from './Coupon/CouponSection';
+import { AddressType } from '../../utils/Endpoints.type';
 
 const initialValues = { userAdd: null, resAdd: null, paymentType: null };
 
@@ -25,26 +15,22 @@ const Checkout = () => {
     paymentType: null | string;
   }>(initialValues);
 
-  const SetUserAddress = (id: number) => {
-    checkoutDetail.current.userAdd = id;
-  };
-
-  const SetRestaurantAddress = (id: number) => {
-    checkoutDetail.current.resAdd = id;
-  };
-
-  const SetPaymentType = (type: string) => {
-    checkoutDetail.current.paymentType = type;
-  };
+  const [currentAddress, setCurrentAddress] = useState<AddressType>({
+    _id: '',
+    address: '',
+    name: '',
+  });
+  const [currentPayment, setCurrentPayment] = useState('');
 
   return (
     <Container pb={120}>
       <Title color="brand.9" order={3} py={24}>
         Checkout
       </Title>
-      <AddressSection activeAddress={SetUserAddress} />
-      <RestaurantSection activeAddress={SetRestaurantAddress} />
-      <PaymentTypeSection activeType={SetPaymentType} />
+      <AddressSection
+        activeAddress={(data: AddressType) => setCurrentAddress(data)}
+      />
+      <PaymentTypeSection activeType={setCurrentPayment} />
       <CouponSection />
       <PaymentSummary />
       <Flex justify="flex-end">

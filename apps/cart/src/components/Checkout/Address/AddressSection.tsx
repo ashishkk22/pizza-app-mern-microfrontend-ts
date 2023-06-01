@@ -1,46 +1,59 @@
 import React, { useState } from 'react';
-import AddressCard from '../SelectionCard';
-import { Card, Center, Flex, Grid, Image, Modal, Text } from '@mantine/core';
+import { Card, Flex, Image, Modal, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { toast } from 'react-hot-toast';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import AddressCard from '../SelectionCard';
 import AddressInput from './AddressInput';
+import { getAddress, deleteAddress } from '../../../utils/api';
+import { DeleteAddressBody, AddressType } from '../../../utils/Endpoints.type';
+import queryClient from '../../../utils/queryClient';
 
-const addressData = [
-  {
-    id: 4,
-    name: 'ashish',
-    address:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Non iste corrupti ipsa Lorem ipsum dolor sit amet.',
-  },
-  {
-    id: 5,
-    name: 'ashish',
-    address:
-      'sdfsd fdsaf adsafd sfsadf asdf asfdsa dsf sadfds sdf sadfsdf asdf sdfsd fdsa  sddf adsf as sdfsd fdsaf adsafd sfsadf asdf asfdsa dsf sadfds sdf sadfsdf asdf sdfsd fdsa  sddf adsf as',
-  },
-];
 type AddressSectionProps = {
-  activeAddress: (id: number) => void;
+  activeAddress: (data: AddressType) => void;
 };
 const AddressSection = ({ activeAddress }: AddressSectionProps) => {
-  const [active, setActive] = useState<number | undefined>();
-  const [opened, { open, close }] = useDisclosure(false);
-  const setActiveAddress = (id: number) => {
-    activeAddress(id);
-    setActive(id);
-  };
+  const { data } = useQuery(['address'], getAddress);
 
+  const [active, setActive] = useState('');
+  const [opened, { open, close }] = useDisclosure(false);
+  const setActiveAddress = (address: {
+    _id: string;
+    address: string;
+    name: string;
+  }) => {
+    activeAddress(address);
+    setActive(address._id);
+  };
+  const deleteAddMutation = useMutation({
+    mutationFn: (data: DeleteAddressBody) => deleteAddress(data),
+    onError: () => {
+      toast.error('Input all the fields');
+    },
+    onSuccess: () => {
+      //invalidate the last page
+      queryClient.invalidateQueries({
+        queryKey: ['address'],
+      });
+      toast.success('Address added successfully !');
+    },
+  });
   return (
     <>
       <Text>Address</Text>
       <Flex direction="row" gap={'lg'} wrap={'wrap'} mt={16}>
-        {addressData.map((address) => {
+        {data?.data.address.map((address, idx) => {
           return (
             <AddressCard
               name={address.name}
-              key={address.id}
+              key={address.name + idx}
               address={address.address}
-              isActive={active === address.id}
-              handleActive={() => setActiveAddress(address.id)}
+              isTrash
+              onTrashBtnAction={() =>
+                deleteAddMutation.mutate({ id: address._id })
+              }
+              isActive={active === address._id}
+              handleActive={() => setActiveAddress(address)}
             />
           );
         })}
@@ -74,7 +87,7 @@ const AddressSection = ({ activeAddress }: AddressSectionProps) => {
           </Flex>
         </Card>
         <Modal opened={opened} onClose={close} title="Add Address" centered>
-          <AddressInput />
+          <AddressInput modalClose={close} />
         </Modal>
       </Flex>
     </>

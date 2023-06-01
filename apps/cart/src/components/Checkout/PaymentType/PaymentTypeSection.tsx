@@ -6,7 +6,7 @@ type PaymentTypeSectionProps = {
   activeType: (type: string) => void;
 };
 
-const typesOfPayment = ['COD', 'Online'];
+const typesOfPayment = ['COD'];
 
 const PaymentTypeSection: FC<PaymentTypeSectionProps> = ({ activeType }) => {
   const [active, setActive] = useState<string | undefined>();

@@ -6,6 +6,7 @@ import {
   createStyles,
   rem,
 } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
 
 type SelectionCardProps = {
   name?: string;
@@ -13,6 +14,8 @@ type SelectionCardProps = {
   isActive?: boolean;
   handleActive?: () => void;
   paymentType?: string;
+  isTrash?: boolean;
+  onTrashBtnAction?: () => void;
 };
 
 const useStyles = createStyles(() => ({
@@ -24,6 +27,11 @@ const useStyles = createStyles(() => ({
     position: 'absolute',
     right: rem(15),
   },
+  trash: {
+    position: 'absolute',
+    right: rem(15),
+    bottom: rem(15),
+  },
 }));
 
 const SelectionCard = ({
@@ -32,6 +40,8 @@ const SelectionCard = ({
   isActive = false,
   handleActive,
   paymentType,
+  isTrash = false,
+  onTrashBtnAction,
 }: SelectionCardProps) => {
   const { classes } = useStyles();
   return (
@@ -62,6 +72,14 @@ const SelectionCard = ({
         </>
       )}
       {paymentType && <Text>{paymentType}</Text>}
+      {isTrash && (
+        <IconTrash
+          className={classes.trash}
+          width={16}
+          color="red"
+          onClick={onTrashBtnAction}
+        />
+      )}
     </Card>
   );
 };
