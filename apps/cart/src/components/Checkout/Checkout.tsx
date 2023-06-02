@@ -6,21 +6,13 @@ import PaymentSummary from './PaymentSummary/PaymentSummary';
 import CouponSection from './Coupon/CouponSection';
 import { AddressType } from '../../utils/Endpoints.type';
 
-const initialValues = { userAdd: null, resAdd: null, paymentType: null };
-
 const Checkout = () => {
-  const checkoutDetail = useRef<{
-    userAdd: null | number;
-    resAdd: null | number;
-    paymentType: null | string;
-  }>(initialValues);
-
   const [currentAddress, setCurrentAddress] = useState<AddressType>({
     _id: '',
     address: '',
     name: '',
   });
-  const [currentPayment, setCurrentPayment] = useState('');
+  const [currentPayment, setCurrentPayment] = useState('COD');
 
   return (
     <Container pb={120}>

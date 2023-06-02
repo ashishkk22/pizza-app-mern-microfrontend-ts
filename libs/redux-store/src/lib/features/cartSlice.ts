@@ -94,7 +94,6 @@ export const CartSlice = createSlice({
     },
     applyDiscount: (state, action: PayloadAction<Discount>) => {
       const discount = action.payload?.totalDiscount;
-      const newPrice = (state.totalPrice * discount) / 100;
       state.discountedPrice = state.totalQty - discount;
       state.discount = state.totalPrice - state.discountedPrice;
     },
