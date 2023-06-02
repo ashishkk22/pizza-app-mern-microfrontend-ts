@@ -63,7 +63,6 @@ const Cart = () => {
       mountPoint: wrapperRef.current!,
       initialPathname: location.pathname.replace(cartBaseName, ''),
     });
-    console.log(unmountRef.current);
     isFirstRunRef.current = false;
   }, [location]);
 

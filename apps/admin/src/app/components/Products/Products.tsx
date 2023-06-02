@@ -51,7 +51,6 @@ const Products = () => {
     () => getProducts(page),
     { keepPreviousData: true }
   );
-  console.log(products);
 
   //display the error msg while fetching the data
   if (productError || categoryError) {

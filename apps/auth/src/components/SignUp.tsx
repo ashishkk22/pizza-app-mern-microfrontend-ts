@@ -51,7 +51,6 @@ const SignUp = () => {
             error: <div>Please check the inputs !</div>,
           }
         );
-        console.log(data);
         setOtpHash(data.hash);
         toggler();
       } catch (error: any) {

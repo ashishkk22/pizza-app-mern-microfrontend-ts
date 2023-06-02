@@ -45,7 +45,7 @@ const SignIn = () => {
         TOKEN: data.TOKEN,
         isAuth: true,
       };
-      console.log(data);
+
       addUser(payload);
       localStorage.setItem('TOKEN', data.TOKEN);
       navigate('..');
