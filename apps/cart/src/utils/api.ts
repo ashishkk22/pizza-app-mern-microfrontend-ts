@@ -4,6 +4,7 @@ import {
   AddAddressBody,
   DeleteAddressBody,
   GetAddressRes,
+  GetCouponResponse,
 } from './Endpoints.type';
 
 const fetchLimits = {
@@ -34,3 +35,7 @@ export const addAddress = (body: AddAddressBody) =>
 
 export const deleteAddress = (body: DeleteAddressBody) =>
   API.post('/user/deleteAddress', body);
+
+/** ==========  coupon related functions ============ */
+export const getCoupons = () =>
+  API.get<GetCouponResponse>(`/coupon?limit=${fetchLimits.couponLimit}&page=1`);
