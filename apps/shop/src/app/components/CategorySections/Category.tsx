@@ -72,6 +72,7 @@ const Category = () => {
         {filteredProduct?.map(({ description, name, image, _id, price }) => {
           return (
             <ProductCard
+              key={_id}
               description={description}
               image={image}
               name={name}

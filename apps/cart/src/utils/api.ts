@@ -2,6 +2,7 @@ import axios from 'axios';
 import { environment } from '../environments/environment';
 import {
   AddAddressBody,
+  CreateOrderBody,
   DeleteAddressBody,
   GetAddressRes,
   GetCouponResponse,
@@ -39,3 +40,8 @@ export const deleteAddress = (body: DeleteAddressBody) =>
 /** ==========  coupon related functions ============ */
 export const getCoupons = () =>
   API.get<GetCouponResponse>(`/coupon?limit=${fetchLimits.couponLimit}&page=1`);
+
+/** =========== order related functions ============== */
+
+export const createOrder = (body: CreateOrderBody) =>
+  API.post('/order/create', body);

@@ -8,8 +8,10 @@ import { theme } from '@pizza-app/ui-shared';
 import { StoreProvider } from '@pizza-app/redux-store';
 import Footer from './components/footer/Footer';
 import { footerData } from './constants/footerConfig';
+import Home from './components/home/Home';
+import Orders from './components/orders/Orders';
+import OrderDetails from './components/orders/OrderDetails';
 
-const Shop = React.lazy(() => import('shop/Module'));
 const Auth = React.lazy(() => import('./components/auth/Auth'));
 const Cart = React.lazy(() => import('./components/cart/Cart'));
 
@@ -30,15 +32,7 @@ const App = () => {
           <GrayContainer>
             <React.Suspense fallback={<CenterLoader />}>
               <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <>
-                      <Banner />
-                      <Shop />
-                    </>
-                  }
-                />
+                <Route path="/" element={<Home />} />
                 <Route
                   path="/cart/*"
                   element={
@@ -47,7 +41,8 @@ const App = () => {
                     </React.Suspense>
                   }
                 />
-                <Route path="/shop/*" element={<></>} />
+                <Route path="/orders" element={<Orders />} />
+                <Route path="/orders/:orderId" element={<OrderDetails />} />
                 <Route
                   path="/user/*"
                   element={

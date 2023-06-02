@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { addAddress } from '../../../utils/api';
 import { AddAddressBody } from '../../../utils/Endpoints.type';
 import { toast } from 'react-hot-toast';
-import queryClient from '../../../utils/queryClient';
+import { queryClient } from '@pizza-app/ui-shared';
 
 type AddressInputType = {
   modalClose: () => void;

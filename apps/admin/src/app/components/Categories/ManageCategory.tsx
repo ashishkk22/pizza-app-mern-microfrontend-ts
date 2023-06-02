@@ -9,7 +9,7 @@ import {
   deleteCategory,
   updateCategory,
 } from '../../utils/api';
-import queryClient from '../../utils/client';
+import { queryClient } from '@pizza-app/ui-shared';
 import {
   CreateCategoryBody,
   DeleteCategoryBody,
