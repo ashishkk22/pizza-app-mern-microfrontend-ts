@@ -43,3 +43,22 @@ export type GetOrderResponse = {
   totalDoc: number;
   totalPages: number;
 };
+
+/** is Auth related types */
+export type User = {
+  photo: string;
+  _id: string;
+  name: string;
+  email: string;
+  phoneNo: string;
+  role: string;
+  activated: boolean;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+};
+export type UserResponse = {
+  message: string;
+  user: User;
+  TOKEN: string;
+};

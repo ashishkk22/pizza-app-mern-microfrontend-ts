@@ -4,6 +4,7 @@ import {
   Card,
   Flex,
   Image,
+  Loader,
   Pagination,
   ScrollArea,
   Table,
@@ -44,14 +45,19 @@ const Orders = () => {
   //to set and update the page in table
   const [page, setPage] = useState(1);
 
-  const { data: orders } = useQuery(['orders', page], () => getOrders(page), {
-    keepPreviousData: true,
-    staleTime: 1 * 1000 * 1000,
-  });
+  const { data: orders, isLoading } = useQuery(
+    ['orders', page],
+    () => getOrders(page),
+    {
+      keepPreviousData: true,
+      staleTime: 1 * 1000 * 1000,
+    }
+  );
 
   const navigate = useNavigate();
   const rows = orders?.data?.orders?.map((order) => {
     const badgeColor = getBadgeColor(order?.status as OrderStatus);
+    const orderPrice = order.discountedPrice ?? order.totalPrice;
     return (
       <tr
         key={order._id}
@@ -66,12 +72,47 @@ const Orders = () => {
           <Badge color={badgeColor}>{order.status}</Badge>
         </td>
         <td>
-          <Text fw={600}>₹{order.discountedPrice}</Text>
+          <Text fw={600}>₹{orderPrice}</Text>
         </td>
         <td>{order.createdAt.substring(0, 10)}</td>
       </tr>
     );
   });
+
+  const TableData = () => {
+    return (
+      <>
+        {' '}
+        {rows && rows.length >= 1 ? (
+          <>
+            <Table
+              horizontalSpacing="lg"
+              verticalSpacing="md"
+              mt={20}
+              fontSize="sm"
+            >
+              <thead>{ths}</thead>
+              <tbody style={{ border: 0 }}>{rows}</tbody>
+            </Table>
+            {orders?.data?.totalPages && (
+              <Flex justify="flex-end" my={20}>
+                <Pagination
+                  total={orders?.data.totalPages}
+                  size="md"
+                  mt={'lg'}
+                  value={page}
+                  onChange={(page) => setPage(page)}
+                  siblings={1}
+                />
+              </Flex>
+            )}
+          </>
+        ) : (
+          <Text>No data found !</Text>
+        )}
+      </>
+    );
+  };
   return (
     <Box p={10}>
       <Card shadow="sm" padding="lg" radius="md" m={8}>
@@ -85,32 +126,12 @@ const Orders = () => {
       </Card>
       <Card shadow="sm" padding="lg" radius="md" m={8}>
         <ScrollArea w={'100%'}>
-          {rows && rows.length >= 1 ? (
-            <>
-              <Table
-                horizontalSpacing="lg"
-                verticalSpacing="md"
-                mt={20}
-                fontSize="sm"
-              >
-                <thead>{ths}</thead>
-                <tbody style={{ border: 0 }}>{rows}</tbody>
-              </Table>
-              {orders?.data.totalPages && (
-                <Flex justify="flex-end" my={20}>
-                  <Pagination
-                    total={orders?.data.totalPages}
-                    size="md"
-                    mt={'lg'}
-                    value={page}
-                    onChange={(page) => setPage(page)}
-                    siblings={1}
-                  />
-                </Flex>
-              )}
-            </>
+          {isLoading ? (
+            <Flex w={'100%'} justify="center">
+              <Loader />
+            </Flex>
           ) : (
-            <Text>No data found !</Text>
+            <TableData />
           )}
         </ScrollArea>
       </Card>

@@ -50,7 +50,7 @@ export type CreateOrderBody = {
   discount: number;
   cartTotalQty: number;
   totalPrice: number;
-  discountedPrice: number;
+  discountedPrice?: number;
   address: AddressType;
   paymentType: string;
   comment: string;

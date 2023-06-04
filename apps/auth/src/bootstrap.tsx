@@ -6,7 +6,6 @@ import { RoutingStrategy } from './routing/types';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '@pizza-app/ui-shared';
 import { StoreProvider } from '@pizza-app/redux-store';
-import { Toaster } from 'react-hot-toast';
 const mount = ({
   mountPoint,
   initialPathname,
@@ -30,7 +29,6 @@ const mount = ({
           primaryColor: theme.primaryColor,
         }}
       >
-        <Toaster position="top-right" />
         <RouterProvider router={router} />
       </MantineProvider>
     </StoreProvider>

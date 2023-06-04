@@ -38,7 +38,7 @@ const PaymentSummary = () => {
             Order Total
           </Text>
           <Text fw={700} color="brand.9">
-            ₹{discountedPrice}
+            ₹{discountedPrice === 0 ? totalPrice : discountedPrice}
           </Text>
         </Flex>
       </Card>

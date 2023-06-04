@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { useAppDispatch, useAppSelector } from '../redux-store';
+import { store, useAppDispatch, useAppSelector } from '../redux-store';
+import { removeToken } from '@pizza-app/ui-shared';
 
 type User = {
   name: string;
@@ -30,13 +31,7 @@ export const UserSlice = createSlice({
       state.TOKEN = action.payload.TOKEN;
       state.isAuth = true;
     },
-    removeUser: (state) => {
-      state.name = '';
-      state.email = '';
-      state.photo = '';
-      state.TOKEN = '';
-      state.isAuth = false;
-    },
+    removeUser: () => initialState,
   },
 });
 const { removeUser, setUser } = UserSlice.actions;
@@ -53,7 +48,15 @@ export function useUserStore() {
     photo,
     isAuth,
     addUser: (payload: User) => dispatch(setUser(payload)),
+    removeUser: () => {
+      removeToken();
+      dispatch(removeUser());
+    },
   };
+}
+
+export function getAuthToken() {
+  return store.getState().user.TOKEN ?? '';
 }
 
 export default UserSlice.reducer;

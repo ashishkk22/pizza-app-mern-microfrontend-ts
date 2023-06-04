@@ -15,6 +15,7 @@ import { validateSignIn } from '../validations/signin';
 import { toast } from 'react-hot-toast';
 import { signin } from '../config/api';
 import { useUserStore } from '@pizza-app/redux-store';
+import { addToken } from '@pizza-app/ui-shared';
 
 const initialValues = {
   email: '',
@@ -23,14 +24,19 @@ const initialValues = {
 
 const SignIn = () => {
   const [loading, setLoading] = useState(false);
+
+  //to add the current user in the store
   const { addUser } = useUserStore();
 
   const navigate = useNavigate();
 
+  // to handle the form and its validations
   const form = useForm({
     initialValues,
     validate: (values) => validateSignIn(values),
   });
+
+  //
   const submitFormHandler = async () => {
     setLoading(true);
     try {
@@ -38,17 +44,15 @@ const SignIn = () => {
         email: form.values.email,
         password: form.values.credentials,
       });
-      const payload = {
+      addUser({
         name: data.user.name,
-        email: data.user.email,
+        email: data.user.email.toLowerCase(),
         photo: data.user.photo,
         TOKEN: data.TOKEN,
         isAuth: true,
-      };
-
-      addUser(payload);
-      localStorage.setItem('TOKEN', data.TOKEN);
-      navigate('..');
+      });
+      navigate('/');
+      addToken(data.TOKEN);
       toast.success(data.message);
     } catch (error: any) {
       error?.response?.data?.message &&

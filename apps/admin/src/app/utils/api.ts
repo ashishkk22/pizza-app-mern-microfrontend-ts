@@ -18,6 +18,8 @@ import {
 } from './endPoint.type';
 import { toast } from 'react-hot-toast';
 import { environment } from '../../environments/environment';
+import { getToken } from '@pizza-app/ui-shared';
+import { getAuthToken } from '@pizza-app/redux-store';
 
 const fetchLimits = {
   categoryLimit: 10,
@@ -29,6 +31,21 @@ const API = axios.create({
   baseURL: 'http://localhost:5222',
   withCredentials: true,
 });
+
+const onRequest = (config: any) => {
+  //getting the token from localStorage
+  let token = getToken();
+
+  if (!token) {
+    token = getAuthToken();
+  }
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  return config;
+};
+
+API.interceptors.request.use(onRequest);
 
 /** ========= category related functions  ========== */
 export const getCategories = (page: number) =>

@@ -46,6 +46,7 @@ const Checkout = () => {
   });
 
   const checkoutHandler = () => {
+    const orderTotal = discountedPrice ?? totalPrice;
     if (!currentAddress?._id) {
       toast.error('Please provide the address !');
       return;
@@ -54,8 +55,7 @@ const Checkout = () => {
       cartTotalQty,
       discount,
       items,
-      totalPrice,
-      discountedPrice,
+      totalPrice: orderTotal,
       address: currentAddress,
       paymentType: currentPayment,
       comment,

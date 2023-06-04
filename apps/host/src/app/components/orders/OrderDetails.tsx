@@ -1,12 +1,6 @@
 import { Button, Container, Flex } from '@mantine/core';
 import React from 'react';
-import {
-  Link,
-  Navigate,
-  useLocation,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import CustomerDetail from './CustomerDetail';
 import Comment from './Comment';
 import TimeLine from './TimeLine';
@@ -30,7 +24,7 @@ const OrderDetails = () => {
         name={orderData.address.name}
         address={orderData.address.address}
         paymentType={orderData.paymentType}
-        total={orderData.discountedPrice}
+        total={orderData.totalPrice}
       />
       {orderData.comment && <Comment msg={orderData?.comment} />}
       <Flex justify="flex-end">

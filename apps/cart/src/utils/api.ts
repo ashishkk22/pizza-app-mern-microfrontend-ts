@@ -7,6 +7,8 @@ import {
   GetAddressRes,
   GetCouponResponse,
 } from './Endpoints.type';
+import { getAuthToken } from '@pizza-app/redux-store';
+import { getToken } from '@pizza-app/ui-shared';
 
 const fetchLimits = {
   orderLimit: 10,
@@ -20,7 +22,12 @@ const API = axios.create({
 });
 
 const onRequest = (config: any) => {
-  const token = localStorage.getItem('TOKEN');
+  //getting the token from localStorage
+  let token = getToken();
+
+  if (!token) {
+    token = getAuthToken();
+  }
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
