@@ -1,18 +1,19 @@
-const userModel = require('../models/userModel');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-// const { sendMail } = require('../utilities/mailSend');
+const userModel = require("../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const { sendMail } = require("../utilities/sendMail");
 
 //signup user
 module.exports.userSignUp = async (req, res) => {
   let { name, email, password, photo } = req.body;
-  photo = photo ?? 'https://robohash.org/pizza-appa';
-  console.log(name, email, password, photo);
+  photo = photo ?? "https://robohash.org/pizza-appa";
+
   try {
     //return if body doesn't contain required variable
     if (!name || !email || !password) {
       return res.status(400).json({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
       });
     }
 
@@ -23,7 +24,7 @@ module.exports.userSignUp = async (req, res) => {
       await userModel.deleteOne({ email: email });
     } else if (userRegistered) {
       return res.status(400).json({
-        message: 'User already registered',
+        message: "User already registered",
       });
     }
 
@@ -44,19 +45,19 @@ module.exports.userSignUp = async (req, res) => {
       photo,
     };
     console.log(emailData);
-    const str = 'otp';
-    // const mailSend = await sendMail(str, emailData);
+    const str = "otp";
+    const mailSend = await sendMail(str, emailData);
     const strForHash = `${email}.${otp}.${expires}`;
     const hash = await bcrypt.hash(strForHash, 10);
     const fullHash = `${hash}.${expires}`;
     return res.status(200).json({
-      message: 'Please verify you email id with sended otp',
+      message: "Please verify you email id with sended otp",
       email,
       hash: fullHash,
     });
   } catch (error) {
     res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -68,18 +69,18 @@ module.exports.verifyUser = async function verifyUser(req, res) {
   try {
     if (!email || !fullHash || !otp) {
       return res.status(400).json({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
       });
     }
 
-    let index = fullHash.lastIndexOf('.');
+    let index = fullHash.lastIndexOf(".");
     let hash = fullHash.slice(0, index);
     let expires = fullHash.slice(index + 1);
     const isExpired = expires < Date.now();
 
     if (isExpired) {
       return res.status(400).json({
-        message: 'OTP expired please try again',
+        message: "OTP expired please try again",
       });
     }
 
@@ -88,14 +89,14 @@ module.exports.verifyUser = async function verifyUser(req, res) {
 
     if (!isValid) {
       return res.status(400).json({
-        message: 'OTP is not valid',
+        message: "OTP is not valid",
       });
     }
 
     const userRegistered = await userModel.findOne({ email: email });
     if (!userRegistered) {
       return res.status(400).json({
-        message: 'User not found',
+        message: "User not found",
       });
     }
 
@@ -113,23 +114,15 @@ module.exports.verifyUser = async function verifyUser(req, res) {
         expiresIn: process.env.NX_JWT_EXPIRE,
       }
     );
-
-    res.cookie('TOKEN', token, {
-      expires: new Date(
-        Date.now() + process.env.NX_JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-      ),
-      httpOnly: true,
-      sameSite: 'strict',
-    });
-
-    userRegistered.password = '__HIDDEN__';
+    userRegistered.password = "__HIDDEN__";
     return res.status(200).json({
-      message: 'User verified successfully',
-      data: userRegistered,
+      message: "User verified successfully",
+      user: userRegistered,
+      TOKEN: token,
     });
   } catch (error) {
     res.status(500).json({
-      message: 'internal server error',
+      message: "internal server error",
       error,
     });
   }
@@ -138,19 +131,17 @@ module.exports.verifyUser = async function verifyUser(req, res) {
 //sign in user
 module.exports.userSignIn = async function userSignIn(req, res) {
   let { email, password } = req.body;
-  // let email = emailRaw.toLowerCase();
-  console.log(email);
   try {
     if (!email || !password) {
       return res.status(400).json({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
       });
     }
 
     const user = await userModel.findOne({ email: email });
     if (user.activated == false) {
       return res.status(400).json({
-        message: 'Please verify your email id',
+        message: "Please verify your email id",
       });
     }
 
@@ -162,25 +153,20 @@ module.exports.userSignIn = async function userSignIn(req, res) {
           expiresIn: process.env.NX_JWT_EXPIRE,
         }
       );
-      res.cookie('TOKEN', token, {
-        expires: new Date(
-          Date.now() + process.env.NX_JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000
-        ),
-        httpOnly: true,
-      });
-      user.password = '__HIDDEN__';
+      user.password = "__HIDDEN__";
       return res.status(200).json({
-        message: 'User signed in successfully',
+        message: "User signed in successfully",
         user,
+        TOKEN: token,
       });
     } else {
       return res.status(400).json({
-        message: 'wrong credentials',
+        message: "wrong credentials",
       });
     }
   } catch (err) {
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
       err,
     });
   }
@@ -189,13 +175,13 @@ module.exports.userSignIn = async function userSignIn(req, res) {
 //logout user
 module.exports.userLogout = async function userLogout(req, res) {
   try {
-    res.clearCookie('TOKEN');
+    res.clearCookie("TOKEN");
     return res.status(200).json({
-      message: 'User logged out successfully',
+      message: "User logged out successfully",
     });
   } catch (err) {
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -212,16 +198,16 @@ module.exports.changePassword = async function changePassword(req, res) {
         { $set: { password: hashedPassword } }
       );
       return res.status(200).json({
-        message: 'Password changed successfully',
+        message: "Password changed successfully",
       });
     } else {
       return res.status(400).json({
-        message: 'Old password is wrong',
+        message: "Old password is wrong",
       });
     }
   } catch (err) {
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -233,15 +219,15 @@ module.exports.forgotPassword = async function forgotPassword(req, res) {
   try {
     const user = await userModel
       .findOne({ email: email })
-      .select('-password -_id');
+      .select("-password -_id");
     if (!user) {
       return res.status(400).json({
-        message: 'User not found',
+        message: "User not found",
       });
     }
     if (user?.activated == false) {
       return res.status(400).json({
-        message: 'Please verify your email id',
+        message: "Please verify your email id",
       });
     }
     const otp = Math.floor(100000 + Math.random() * 900000);
@@ -252,19 +238,19 @@ module.exports.forgotPassword = async function forgotPassword(req, res) {
       name: user.name,
       email: user.email,
     };
-    const str = 'forgotPassword';
+    const str = "forgotPassword";
     // const mailSend = await sendMail(str, emailData);
     console.log(emailData);
     const hash = await bcrypt.hash(`${user.email}.${otp}.${expires}`, 10);
     const fullHash = `${hash}.${expires}`;
     return res.status(200).json({
-      message: 'OTP send successfully',
+      message: "OTP send successfully",
       email: user.email,
       fullHash,
     });
   } catch (err) {
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -276,23 +262,23 @@ module.exports.forgotPassVerify = async function forgotPassVerify(req, res) {
   try {
     if (!email || !fullHash || !otp || !password) {
       return res.status(400).json({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
       });
     }
-    let index = fullHash.lastIndexOf('.');
+    let index = fullHash.lastIndexOf(".");
     let hash = fullHash.slice(0, index);
     let expires = fullHash.slice(index + 1);
     const isExpired = expires < Date.now();
     if (isExpired) {
       return res.status(400).json({
-        message: 'OTP expired',
+        message: "OTP expired",
       });
     }
     const data = `${email}.${otp}.${expires}`;
     const isValid = await bcrypt.compare(data, hash);
     if (!isValid) {
       return res.status(400).json({
-        message: 'OTP is not valid',
+        message: "OTP is not valid",
       });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -301,11 +287,11 @@ module.exports.forgotPassVerify = async function forgotPassVerify(req, res) {
       { $set: { password: hashedPassword } }
     );
     return res.status(200).json({
-      message: 'Password changed successfully',
+      message: "Password changed successfully",
     });
   } catch (err) {
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };
@@ -313,27 +299,28 @@ module.exports.forgotPassVerify = async function forgotPassVerify(req, res) {
 //is authenticated or not
 module.exports.isAuthenticated = async function isAuthenticated(req, res) {
   try {
-    const { TOKEN } = req.cookies;
+    const TOKEN = req.headers.authorization?.split(" ")[1];
     if (!TOKEN) {
       return res.status(401).json({
-        message: 'Please login ',
+        message: "Please login ",
       });
     }
     const { id } = jwt.verify(TOKEN, process.env.NX_JWT_SECRET);
-    const user = await userModel.findById(id).select('-password');
+    const user = await userModel.findById(id).select("-password");
     if (!user) {
       return res.status(404).json({
-        message: 'User not found',
+        message: "User not found",
       });
     } else {
       return res.status(201).json({
-        message: 'registered user',
+        message: "registered user",
         user,
+        TOKEN,
       });
     }
   } catch (err) {
     return res.status(400).json({
-      message: 'Please login to continue',
+      message: "Please login to continue",
     });
   }
 };
@@ -344,20 +331,20 @@ module.exports.updateUserDetails = async function updateUserDetails(req, res) {
   try {
     if (!name || !email || !password) {
       return res.status(400).json({
-        message: 'Please fill all the fields',
+        message: "Please fill all the fields",
       });
     }
     const user = await userModel.findById(req.userId);
     if (!user) {
       return res.status(400).json({
-        message: 'User not found',
+        message: "User not found",
       });
     }
     if (email != user.email) {
       const userExists = await userModel.findOne({ email: email });
       if (userExists) {
         return res.status(400).json({
-          message: 'User already exists',
+          message: "User already exists",
         });
       }
     }
@@ -365,14 +352,14 @@ module.exports.updateUserDetails = async function updateUserDetails(req, res) {
       { _id: req.userId },
       { $set: { name: name, email: email, password: password } }
     );
-    user.password = '__HIDDEN__';
+    user.password = "__HIDDEN__";
     return res.status(200).json({
-      message: 'User details updated successfully',
+      message: "User details updated successfully",
       data: user,
     });
   } catch (err) {
     return res.status(500).json({
-      message: 'Internal server error',
+      message: "Internal server error",
     });
   }
 };

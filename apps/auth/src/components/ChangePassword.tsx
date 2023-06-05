@@ -48,6 +48,7 @@ const ChangePassword = () => {
             mt="md"
             size="md"
             withAsterisk
+            autoComplete="on"
           />
           <PasswordInput
             label="New Password"
@@ -56,6 +57,7 @@ const ChangePassword = () => {
             mt="md"
             size="md"
             withAsterisk
+            autoComplete="on"
           />
           <PasswordInput
             label="Confirm New Password"
@@ -64,6 +66,7 @@ const ChangePassword = () => {
             size="md"
             {...form.getInputProps('confirmNewCredential')}
             withAsterisk
+            autoComplete="on"
           />
           <Button fullWidth mt="xl" size="md" type="submit">
             Change Password

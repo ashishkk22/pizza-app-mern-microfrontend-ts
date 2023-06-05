@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 require("dotenv").config();
 
-module.exports.authMiddleware = async (req, res, next) => {
+module.exports.adminMiddleware = async (req, res, next) => {
   try {
     const TOKEN = req.headers.authorization?.split(" ")[1];
     if (!TOKEN) {
@@ -12,6 +12,12 @@ module.exports.authMiddleware = async (req, res, next) => {
     }
     const { id } = jwt.verify(TOKEN, process.env.NX_JWT_SECRET);
     req.user = await userModel.findById(id).select("-password");
+
+    if (req.user.role !== "admin") {
+      return res.status(404).json({
+        message: "Unauthorized access! Please register as admin",
+      });
+    }
     if (req.user) {
       next();
     } else {

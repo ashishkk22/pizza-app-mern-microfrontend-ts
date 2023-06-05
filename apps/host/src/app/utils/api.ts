@@ -19,7 +19,6 @@ const onRequest = (config: any) => {
 
   if (!token) {
     token = getAuthToken();
-    console.log(getAuthToken(), token, 'from the redux store');
   }
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;

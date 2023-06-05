@@ -131,6 +131,7 @@ const SignUp = () => {
                 {...form.getInputProps('credentials')}
                 mt="md"
                 size="md"
+                autoComplete="on"
                 withAsterisk
                 disabled={isOtpSend}
               />
@@ -139,6 +140,7 @@ const SignUp = () => {
                 placeholder="Your confirm password"
                 mt="md"
                 size="md"
+                autoComplete="on"
                 {...form.getInputProps('confirmCredentials')}
                 withAsterisk
                 disabled={isOtpSend}
@@ -152,6 +154,7 @@ const SignUp = () => {
               mt="md"
               description="Enter the 6 digit otp that has been sended to the provided email id!"
               size="md"
+              autoComplete="on"
               {...form.getInputProps('otp')}
               withAsterisk
             />
