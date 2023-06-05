@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  main:
+    name: Nx Cloud - Main Job
+    uses: nrwl/ci/.github/workflows/nx-cloud-main.yml@v0.13.0
+    with:
+      main-branch-name: main
+      artifacts-name: dist
+      artifacts-path: dist
+      number-of-agents: 1
+      init-commands: |
+        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=1
+      parallel-commands: |
+        pnpm exec nx-cloud record -- pnpm exec nx format:check
+      parallel-commands-on-agents: |
+        pnpm nx run host:build:production
+        pnpm nx run admin:build:production
+
+  deploy:
+    needs: main
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: dist
+          path: dist
+      - name: ACTIONS_ALLOW_UNSECURE_COMMANDS
+        run: echo 'ACTIONS_ALLOW_UNSECURE_COMMANDS=true' >> $GITHUB_ENV
+      - uses: chrislennon/action-aws-cli@v1.1
+      - run: aws s3 sync dist/apps s3://${{ secrets.AWS_S3_BUCKET_NAME }}/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID_ADMIN }} --paths "/*"
+      - run: aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID_HOST }} --paths "/*"
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  agents:
+    name: Nx Cloud - Agents
+    uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
+    with:
+      number-of-agents: 1

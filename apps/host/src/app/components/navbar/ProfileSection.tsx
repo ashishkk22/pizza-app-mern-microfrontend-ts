@@ -1,12 +1,8 @@
 import React, { FC } from 'react';
 import { Button, Avatar, Menu, Text, Accordion, Flex } from '@mantine/core';
-import {
-  IconArrowsExchange,
-  IconLogout,
-  IconUserCircle,
-} from '@tabler/icons-react';
+import { IconArrowsExchange, IconLogout } from '@tabler/icons-react';
 import { useUserStore } from '@pizza-app/redux-store';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 type ProfileSectionProps = {
   isMobile?: boolean;
@@ -14,7 +10,13 @@ type ProfileSectionProps = {
 };
 
 const ProfileSection: FC<ProfileSectionProps> = ({ isMobile, style }) => {
-  const { isAuth, photo, name } = useUserStore();
+  const { isAuth, photo, name, removeUser } = useUserStore();
+  const navigate = useNavigate();
+  const logoutHandler = () => {
+    removeUser();
+    navigate('/');
+  };
+
   if (isMobile) {
     return (
       <>
@@ -38,17 +40,8 @@ const ProfileSection: FC<ProfileSectionProps> = ({ isMobile, style }) => {
                   <Button
                     variant="subtle"
                     component={Link}
-                    to="/"
                     className={style}
-                    leftIcon={<IconUserCircle size={14} />}
-                  >
-                    Profile
-                  </Button>
-                  <Button
-                    variant="subtle"
-                    component={Link}
-                    className={style}
-                    to="/"
+                    to="/user/changePassword"
                     leftIcon={<IconArrowsExchange size={14} />}
                   >
                     Change password
@@ -59,6 +52,7 @@ const ProfileSection: FC<ProfileSectionProps> = ({ isMobile, style }) => {
                     className={style}
                     to="/"
                     leftIcon={<IconLogout size={14} />}
+                    onClick={logoutHandler}
                   >
                     Logout
                   </Button>
@@ -98,12 +92,19 @@ const ProfileSection: FC<ProfileSectionProps> = ({ isMobile, style }) => {
             />
           </Menu.Target>
           <Menu.Dropdown>
-            <Menu.Item icon={<IconUserCircle size={14} />}>Profile</Menu.Item>
-            <Menu.Item icon={<IconArrowsExchange size={14} />}>
+            <Menu.Item
+              icon={<IconArrowsExchange size={14} />}
+              component={Link}
+              to="/user/changePassword"
+            >
               Change password
             </Menu.Item>
             <Menu.Divider />
-            <Menu.Item color="red" icon={<IconLogout size={14} />}>
+            <Menu.Item
+              color="red"
+              icon={<IconLogout size={14} />}
+              onClick={logoutHandler}
+            >
               Logout
             </Menu.Item>
           </Menu.Dropdown>

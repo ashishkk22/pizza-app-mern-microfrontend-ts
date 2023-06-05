@@ -28,7 +28,7 @@ import {
   Product,
   UpdateProductBody,
 } from '../../../utils/endPoint.type';
-import queryClient from '../../../utils/client';
+import { queryClient } from '@pizza-app/ui-shared';
 import { validateProduct } from '../../../validations/ProductValidation';
 
 const ManageProduct = () => {

@@ -9,13 +9,15 @@ import {
   Card,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import ImageUpload from './ImageUpload';
 import { useReducer, useState } from 'react';
 import { validateSignUp } from '../validations/signup';
-import { isAuth, signup, verifyOtp } from '../config/api';
+import { signup, verifyOtp } from '../config/api';
 import { toast } from 'react-hot-toast';
+import { useUserStore } from '@pizza-app/redux-store';
+import { addToken } from '@pizza-app/ui-shared';
 
 const initialValues = {
   name: '',
@@ -27,30 +29,43 @@ const initialValues = {
 };
 
 const SignUp = () => {
+  const [loading, setLoading] = useState(false);
+
+  //to get the image if uploaded (imageKit)
   const [image, setImage] = useState('https://robohash.org/pizza');
+
+  //to open the otp field and remove the password field
   const [isOtpSend, toggler] = useReducer((state) => !state, false);
+
+  //to save the otp hash
   const [otpHash, setOtpHash] = useState('');
+
+  //to add the current user in the redux
+  const { addUser } = useUserStore();
+
   const largeScreen = useMediaQuery('(min-width:600px)');
+
+  //to validate the form and get the form values
   const form = useForm({
     initialValues,
     validate: (values) => validateSignUp(values, isOtpSend),
   });
+
+  //to navigate from this page
+  const navigate = useNavigate();
+
+  //to send the otp and verify it
   const submitFormHandler = async (values: typeof initialValues) => {
+    setLoading(true);
     if (!isOtpSend) {
       try {
-        const { data } = await toast.promise(
-          signup({
-            name: values.name,
-            email: values.email,
-            password: values.credentials,
-            photo: image,
-          }),
-          {
-            loading: 'Loading! Please wait....',
-            success: <div>otp sended successfully</div>,
-            error: <div>Please check the inputs !</div>,
-          }
-        );
+        const { data } = await signup({
+          name: values.name,
+          email: values.email.toLowerCase(),
+          password: values.credentials,
+          photo: image,
+        });
+        toast.success('Otp sended successfully !');
         setOtpHash(data.hash);
         toggler();
       } catch (error: any) {
@@ -58,7 +73,7 @@ const SignUp = () => {
       }
     } else {
       try {
-        await toast.promise(
+        const { data } = await toast.promise(
           verifyOtp({
             email: values.email,
             hash: otpHash,
@@ -70,13 +85,20 @@ const SignUp = () => {
             error: <div>Please enter valid otp</div>,
           }
         );
-        toast.success('Verified ! Signup successfully');
-        const res = await isAuth();
-        console.log(res.data, 'from isAuth');
+        navigate('/');
+        addUser({
+          name: data.user.name,
+          email: data.user.email.toLowerCase(),
+          photo: data.user.photo,
+          TOKEN: data.TOKEN,
+          isAuth: true,
+        });
+        addToken(data.TOKEN);
       } catch (error: any) {
-        toast.error(error?.response?.data?.message);
+        return;
       }
     }
+    setLoading(false);
   };
 
   return (
@@ -140,7 +162,7 @@ const SignUp = () => {
             size="md"
             {...form.getInputProps('isLoggedIn')}
           />
-          <Button fullWidth mt="xl" size="md" type="submit">
+          <Button fullWidth mt="xl" size="md" type="submit" loading={loading}>
             {isOtpSend ? 'Sign Up' : 'Send Otp'}
           </Button>
         </form>

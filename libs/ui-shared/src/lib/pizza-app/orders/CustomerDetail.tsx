@@ -1,9 +1,21 @@
 import { Card, Divider, Flex, Text } from '@mantine/core';
-import React from 'react';
+import React, { FC } from 'react';
 
-const CustomerDetail = () => {
+type CustomerDetailProps = {
+  name: string;
+  address: string;
+  paymentType: string;
+  total: number;
+};
+
+export const CustomerDetail: FC<CustomerDetailProps> = ({
+  address,
+  name,
+  paymentType,
+  total,
+}) => {
   return (
-    <Card shadow="sm" padding="lg" radius="md" m={8} w={'100%'}>
+    <Card shadow="sm" radius="md" w={'100%'} my={6}>
       <Text fz="lg" fw={600} mb={12}>
         Customer Details
       </Text>
@@ -12,28 +24,26 @@ const CustomerDetail = () => {
         <Text color="gray.6" fw={500}>
           Name
         </Text>
-        <Text fw={600}>Ashish Kachhadiya</Text>
+        <Text fw={600}>{name}</Text>
       </Flex>
       <Flex direction="column" my={20}>
         <Text color="gray.6" fw={500}>
           Address
         </Text>
-        <Text fw={500}>Near Sarthak school nikol ahmedabad, 38230</Text>
+        <Text fw={500}>{address}</Text>
       </Flex>
       <Flex direction="column" my={20}>
         <Text color="gray.6" fw={500}>
           Payment type
         </Text>
-        <Text fw={600}>Cash on delivery</Text>
+        <Text fw={600}>{paymentType}</Text>
       </Flex>
       <Flex direction="column" my={20}>
         <Text color="gray.6" fw={500}>
           Order amount
         </Text>
-        <Text fw={600}>₹ 1250</Text>
+        <Text fw={600}>₹ {total}</Text>
       </Flex>
     </Card>
   );
 };
-
-export default CustomerDetail;

@@ -11,74 +11,40 @@ import {
   Title,
 } from '@mantine/core';
 import React from 'react';
-import { getBadgeColor, getOrderStatus } from '../../utils/getOrderStatus';
 import { Link, useNavigate } from 'react-router-dom';
-
-const elements = [
-  {
-    id: 'sdkflewwewfdsf',
-    name: 'Ashish Kachhadiya',
-    address:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident dolorum necessitatibus corporis?',
-    price: 1200,
-    status: 0,
-  },
-  {
-    id: 'sdkflewwewfasdsf',
-    name: 'Mayank',
-    address:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident',
-    price: 900,
-    status: 1,
-  },
-  {
-    id: 'sdkfasqwlewwewfdsf',
-    name: 'vishal',
-    address: 88.906,
-    price: 1900,
-    status: 2,
-  },
-  {
-    id: 'sdkaeqwflewwewfdsf',
-    name: 'harsh vadadoriya',
-    address:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident ',
-    price: 1920,
-    status: 2,
-  },
-  {
-    id: 'sdkflawqsfewwewfdsf',
-    name: 'vipul',
-    address:
-      'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident dolorum necessitatibus corporis?',
-    price: 2200,
-    status: 1,
-  },
-];
+import { useUserStore } from '@pizza-app/redux-store';
+import { useQuery } from '@tanstack/react-query';
+import { getOrders } from '../../utils/api';
+import { getBadgeColor } from '../../utils/getBadgeColor';
+import { OrderStatus } from '../../utils/endPoint.type';
 
 const Home = () => {
+  const { name } = useUserStore();
+
   const navigate = useNavigate();
 
-  const rows = elements.map((element) => {
-    const orderStatus = getOrderStatus(element.status);
-    const badgeColor = getBadgeColor(element.status);
+  const { data: orders } = useQuery(['home_orders'], () => getOrders(1, 10));
+
+  const rows = orders?.data.orders.map((order) => {
+    const badgeColor = getBadgeColor(order?.status as OrderStatus);
+    const orderPrice = order.discountedPrice ?? order.totalPrice;
     return (
       <tr
-        key={element.name + element.price}
-        onClick={() => navigate(`/orders/${element.id}`)}
+        key={order._id}
+        onClick={() => navigate(`/orders/${order._id}`)}
         style={{ cursor: 'pointer' }}
       >
         <td style={{ border: 0 }}>
           <Flex direction="column">
-            <Text fw={600}>{element.name}</Text>
-            <Text>{element.address}</Text>
+            <Text fw={600}>{order.address.name}</Text>
+            <Text>{order.address.address}</Text>
           </Flex>
         </td>
         <td style={{ border: 0 }}>
-          <Text fw={600}>₹{element.price}</Text>
+          <Text fw={600}>₹{orderPrice}</Text>
         </td>
         <td style={{ border: 0 }}>
-          <Badge color={badgeColor}>{orderStatus}</Badge>
+          <Badge color={badgeColor}>{order.status}</Badge>
         </td>
       </tr>
     );
@@ -86,7 +52,7 @@ const Home = () => {
   return (
     <Container pb={120}>
       <Title order={2} m={8}>
-        Hello Welcome back, Ashish
+        Hello Welcome back, {name}
         <span role="img" aria-label="happy emoji">
           😊
         </span>
@@ -115,7 +81,7 @@ const Home = () => {
             <Flex direction="column">
               <Text>Total Sale</Text>
               <Text fz={'xl'} weight={500}>
-                ₹ 522,000
+                ₹ 18,329
               </Text>
             </Flex>
           </Flex>

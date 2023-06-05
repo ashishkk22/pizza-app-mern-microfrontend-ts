@@ -15,7 +15,7 @@ import {
 } from '../../utils/endPoint.type';
 import { createCoupon, deleteCoupon, updateCoupon } from '../../utils/api';
 import { toast } from 'react-hot-toast';
-import queryClient from '../../utils/client';
+import { queryClient } from '@pizza-app/ui-shared';
 import { IconTrash } from '@tabler/icons-react';
 
 type AddPromoProps = {

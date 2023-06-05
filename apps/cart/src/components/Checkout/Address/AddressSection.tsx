@@ -7,7 +7,7 @@ import AddressCard from '../SelectionCard';
 import AddressInput from './AddressInput';
 import { getAddress, deleteAddress } from '../../../utils/api';
 import { DeleteAddressBody, AddressType } from '../../../utils/Endpoints.type';
-import queryClient from '../../../utils/queryClient';
+import { queryClient } from '@pizza-app/ui-shared';
 
 type AddressSectionProps = {
   activeAddress: (data: AddressType) => void;

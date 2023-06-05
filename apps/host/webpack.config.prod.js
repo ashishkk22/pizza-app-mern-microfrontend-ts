@@ -24,9 +24,9 @@ const prodConfig = {
    * ]
    */
   remotes: [
-    ['cart', 'https://cart-pizza.netlify.app/remoteEntry.js'],
-    ['shop', 'https://shop-pizza1.netlify.app/remoteEntry.js'],
-    ['auth', 'https://auth-pizza.netlify.app/remoteEntry.js'],
+    ['cart', 'https://d91vylvrr1oaq.cloudfront.net/cart/remoteEntry.js'],
+    ['shop', 'https://d91vylvrr1oaq.cloudfront.net/shop/remoteEntry.js'],
+    ['auth', 'https://d91vylvrr1oaq.cloudfront.net/auth/remoteEntry.js'],
   ],
 };
 

@@ -16,7 +16,7 @@ import {
   rem,
   Navbar,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -56,12 +56,17 @@ interface NavbarLinkProps {
   label: string;
   active?: boolean;
   onClick?(): void;
+  link?: string;
 }
 
-function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
+function NavbarLink({
+  icon: Icon,
+  label,
+  active,
+  onClick,
+  link = '/',
+}: NavbarLinkProps) {
   const { classes, cx } = useStyles();
-
-  const routeLink = label.toLowerCase();
 
   return (
     <Tooltip label={label} position="right" transitionProps={{ duration: 0 }}>
@@ -69,7 +74,7 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
         onClick={onClick}
         className={cx(classes.link, { [classes.active]: active })}
         component={Link}
-        to={`/${routeLink}`}
+        to={link}
       >
         <Icon size="1.2rem" stroke={1.5} />
       </UnstyledButton>
@@ -78,24 +83,21 @@ function NavbarLink({ icon: Icon, label, active, onClick }: NavbarLinkProps) {
 }
 
 const sideBarData = [
-  { icon: IconHome2, label: 'Home' },
-  { icon: IconBriefcase, label: 'Orders' },
-  { icon: IconToolsKitchen2, label: 'Products' },
-  { icon: IconCategory, label: 'Categories' },
-  { icon: IconGift, label: 'Promos' },
+  { icon: IconHome2, label: 'Home', link: '/' },
+  { icon: IconBriefcase, label: 'Orders', link: '/orders' },
+  { icon: IconToolsKitchen2, label: 'Products', link: '/products' },
+  { icon: IconCategory, label: 'Categories', link: '/categories' },
+  { icon: IconGift, label: 'Promos', link: '/promos' },
 ];
 
 const Sidebar = () => {
-  const [active, setActive] = useState(0);
+  const location = useLocation();
 
   const links = sideBarData.map((link, index) => (
     <NavbarLink
       {...link}
       key={link.label}
-      active={index === active}
-      onClick={() => {
-        setActive(index);
-      }}
+      active={location.pathname === link.link}
     />
   ));
   return (
@@ -103,12 +105,6 @@ const Sidebar = () => {
       <Navbar.Section grow mt={50}>
         <Stack justify="center" spacing={0}>
           {links}
-        </Stack>
-      </Navbar.Section>
-      <Navbar.Section>
-        <Stack justify="center" spacing={0}>
-          <NavbarLink icon={IconLogout} label="Logout" />
-          <NavbarLink icon={IconSwitchHorizontal} label="Change account" />
         </Stack>
       </Navbar.Section>
     </Navbar>

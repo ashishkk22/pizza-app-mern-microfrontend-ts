@@ -49,9 +49,9 @@ const Cart = () => {
   });
 
   useEffect(() => {
-    const fn = unmountRef.current;
+    const unmountFunction = unmountRef.current;
     return () => {
-      fn();
+      unmountFunction();
     };
   }, []);
 

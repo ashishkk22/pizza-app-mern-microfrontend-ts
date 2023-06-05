@@ -13,7 +13,6 @@ type Item = {
 
 type Cart = {
   items: Item[];
-  totalQty: number;
   discount: number;
   cartTotalQty: number;
   totalPrice: number;
@@ -27,7 +26,6 @@ type Discount = {
 //initialValue of the auth slice
 const initialState: Cart = {
   items: [],
-  totalQty: 0,
   discount: 0,
   cartTotalQty: 0,
   totalPrice: 0,
@@ -94,12 +92,13 @@ export const CartSlice = createSlice({
     },
     applyDiscount: (state, action: PayloadAction<Discount>) => {
       const discount = action.payload?.totalDiscount;
-      state.discountedPrice = state.totalQty - discount;
-      state.discount = state.totalPrice - state.discountedPrice;
+      state.discount = (state.totalPrice * discount) / 100;
+      state.discountedPrice = state.totalPrice - state.discount;
     },
+    resetCart: () => initialState,
   },
 });
-const { addToCart, totalPrice, decreaseCart, applyDiscount } =
+const { addToCart, totalPrice, decreaseCart, applyDiscount, resetCart } =
   CartSlice.actions;
 
 //segregate the reducer from state to reduce re render on the state update
@@ -119,18 +118,21 @@ export function useCartReducer() {
     applyDiscount: (payload: Discount) => {
       dispatch(applyDiscount(payload));
     },
+    resetCart: () => {
+      dispatch(resetCart());
+    },
   };
 }
 
 export function useCartStore() {
-  const { cartTotalQty, discount, items, totalPrice, totalQty } =
+  const { cartTotalQty, discount, items, totalPrice, discountedPrice } =
     useAppSelector((state) => state.cart);
   return {
     cartTotalQty,
     discount,
     items,
     totalPrice,
-    totalQty,
+    discountedPrice,
   };
 }
 

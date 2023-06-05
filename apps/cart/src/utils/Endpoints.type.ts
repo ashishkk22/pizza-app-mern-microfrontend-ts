@@ -34,3 +34,24 @@ export type GetCouponResponse = {
   totalDoc: number;
   totalPages: number;
 };
+
+/** order endpoints body and response type */
+type Item = {
+  id: string;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  qty?: number | null;
+};
+
+export type CreateOrderBody = {
+  items: Item[];
+  discount: number;
+  cartTotalQty: number;
+  totalPrice: number;
+  discountedPrice?: number;
+  address: AddressType;
+  paymentType: string;
+  comment: string;
+};

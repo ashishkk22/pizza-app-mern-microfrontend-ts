@@ -2,10 +2,13 @@ import axios from 'axios';
 import { environment } from '../environments/environment';
 import {
   AddAddressBody,
+  CreateOrderBody,
   DeleteAddressBody,
   GetAddressRes,
   GetCouponResponse,
 } from './Endpoints.type';
+import { getAuthToken } from '@pizza-app/redux-store';
+import { getToken } from '@pizza-app/ui-shared';
 
 const fetchLimits = {
   orderLimit: 10,
@@ -19,7 +22,12 @@ const API = axios.create({
 });
 
 const onRequest = (config: any) => {
-  const token = localStorage.getItem('TOKEN');
+  //getting the token from localStorage
+  let token = getToken();
+
+  if (!token) {
+    token = getAuthToken();
+  }
   if (token) {
     config.headers['Authorization'] = `Bearer ${token}`;
   }
@@ -39,3 +47,8 @@ export const deleteAddress = (body: DeleteAddressBody) =>
 /** ==========  coupon related functions ============ */
 export const getCoupons = () =>
   API.get<GetCouponResponse>(`/coupon?limit=${fetchLimits.couponLimit}&page=1`);
+
+/** =========== order related functions ============== */
+
+export const createOrder = (body: CreateOrderBody) =>
+  API.post('/order/create', body);

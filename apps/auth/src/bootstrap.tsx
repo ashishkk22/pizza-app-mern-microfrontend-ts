@@ -6,18 +6,22 @@ import { RoutingStrategy } from './routing/types';
 import { MantineProvider } from '@mantine/core';
 import { theme } from '@pizza-app/ui-shared';
 import { StoreProvider } from '@pizza-app/redux-store';
-import { Toaster } from 'react-hot-toast';
 const mount = ({
   mountPoint,
   initialPathname,
   routingStrategy,
+  isAdminPanel,
 }: {
   mountPoint: HTMLElement;
   initialPathname?: string;
   routingStrategy?: RoutingStrategy;
+  isAdminPanel?: boolean;
 }) => {
   const router = createRouter({ strategy: routingStrategy, initialPathname });
 
+  if (isAdminPanel) {
+    localStorage.setItem('host', 'admin');
+  }
   const root = createRoot(mountPoint);
   root.render(
     <StoreProvider>
@@ -30,7 +34,6 @@ const mount = ({
           primaryColor: theme.primaryColor,
         }}
       >
-        <Toaster position="top-right" />
         <RouterProvider router={router} />
       </MantineProvider>
     </StoreProvider>

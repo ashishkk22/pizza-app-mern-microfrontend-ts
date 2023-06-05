@@ -101,7 +101,7 @@ const Navbar = () => {
             <Link to={'/'} className={classes.link}>
               Menu
             </Link>
-            <Link to={'/'} className={classes.link}>
+            <Link to={'/orders'} className={classes.link}>
               Orders
             </Link>
             <Link to={'/cart/'} className={classes.link}>
@@ -143,7 +143,7 @@ const Navbar = () => {
           <Link to={'/'} className={classes.link}>
             Menu
           </Link>
-          <Link to={'/'} className={classes.link}>
+          <Link to={'/orders'} className={classes.link}>
             Orders
           </Link>
           <Link to={'/cart/'} className={classes.link}>

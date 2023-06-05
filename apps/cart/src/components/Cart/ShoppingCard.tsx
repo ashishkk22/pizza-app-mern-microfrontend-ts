@@ -28,10 +28,7 @@ const ShoppingCard: FC<ShoppingCardProps> = ({
             <Text color="brand.9" fw={600} mb={7} fz="lg">
               {name}
             </Text>
-            <Text fz="xs" my={7} color="brand.9" fw={500}>
-              Large | Thick
-            </Text>
-            <Group>
+            <Group mt={7}>
               <Button
                 compact
                 uppercase

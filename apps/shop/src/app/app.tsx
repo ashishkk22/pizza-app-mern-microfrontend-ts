@@ -3,7 +3,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { Box } from '@mantine/core';
 import PopularOrder from './components/PopularOrder';
 import Category from './components/CategorySections/Category';
-import queryClient from './utils/queryClient';
+import { queryClient } from '@pizza-app/ui-shared';
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>

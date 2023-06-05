@@ -1,18 +1,11 @@
-import {
-  Box,
-  Button,
-  Card,
-  Divider,
-  Flex,
-  Loader,
-  Text,
-  TextInput,
-  Title,
-} from '@mantine/core';
+import { Card, Divider, Flex, Text } from '@mantine/core';
+import { useCartStore } from '@pizza-app/redux-store';
 import React from 'react';
 
 const PaymentSummary = () => {
   const ActiveDiscount = true;
+
+  const { discount, totalPrice, discountedPrice } = useCartStore();
   // const;
   return (
     <>
@@ -23,25 +16,7 @@ const PaymentSummary = () => {
             SubTotal
           </Text>
           <Text fw={600} color="brand.9">
-            ₹4000
-          </Text>
-        </Flex>
-        <Divider size="xs" color="gray.2" my={16} />
-        <Flex direction="row" justify="space-between">
-          <Text fw={400} color="brand.9">
-            Taxes
-          </Text>
-          <Text fw={600} color="brand.9">
-            ₹4000
-          </Text>
-        </Flex>
-        <Divider size="xs" color="gray.2" my={16} />
-        <Flex direction="row" justify="space-between">
-          <Text fw={400} color="brand.9">
-            Delivery Services
-          </Text>
-          <Text fw={600} color="brand.9">
-            ₹4000
+            ₹{totalPrice}
           </Text>
         </Flex>
         <Divider size="xs" color="gray.2" my={16} />
@@ -52,7 +27,7 @@ const PaymentSummary = () => {
                 Discount
               </Text>
               <Text fw={600} color="brand.9">
-                ₹400
+                ₹{discount}
               </Text>
             </Flex>
             <Divider size="xs" color="gray.2" my={16} />
@@ -63,7 +38,7 @@ const PaymentSummary = () => {
             Order Total
           </Text>
           <Text fw={700} color="brand.9">
-            ₹1000
+            ₹{discountedPrice === 0 ? totalPrice : discountedPrice}
           </Text>
         </Flex>
       </Card>

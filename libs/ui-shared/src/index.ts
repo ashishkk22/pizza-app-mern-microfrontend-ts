@@ -3,3 +3,7 @@ export * from './lib/pizza-app/theme/theme';
 export * from './lib/pizza-app/container/GrayContainer';
 export * from './lib/pizza-app/logo/Logo';
 export * from './lib/pizza-app/footer/Footer';
+export * from './lib/pizza-app/queryClient';
+export * from './lib/pizza-app/auth-token/tokenService';
+export * from './lib/pizza-app/404page/NotFoundPage';
+export * from './lib/pizza-app/orders/index';
