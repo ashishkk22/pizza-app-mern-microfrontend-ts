@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -7,19 +7,19 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: [true, 'Email is required'],
+      required: [true, "Email is required"],
       unique: true,
       match:
         /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/,
     },
     password: {
       type: String,
-      required: [true, 'password is required'],
+      required: [true, "password is required"],
     },
     role: {
       type: String,
-      enum: ['admin', 'user', 'employee', 'partner'],
-      default: 'user',
+      enum: ["admin", "user", "employee", "partner"],
+      default: "user",
     },
     activated: {
       type: Boolean,
@@ -28,11 +28,17 @@ const userSchema = new mongoose.Schema(
     },
     photo: {
       type: String,
-      default: 'https://robohash.org/pizza-appa',
+      default: "https://robohash.org/pizza-appa",
     },
+    address: [
+      {
+        name: String,
+        address: String,
+      },
+    ],
   },
   { timestamps: true }
 );
 
-const userModel = mongoose.model('userModel', userSchema);
+const userModel = mongoose.model("userModel", userSchema);
 module.exports = userModel;

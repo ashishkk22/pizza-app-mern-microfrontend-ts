@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const categorySchema = new mongoose.Schema(
+const couponSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -16,8 +16,12 @@ const categorySchema = new mongoose.Schema(
     status: {
       type: String,
       required: true,
-      enum: ["published", "draft"],
       unique: false,
+      enum: ["valid", "draft"],
+    },
+    percentage: {
+      type: Number,
+      required: true,
     },
   },
   {
@@ -25,4 +29,4 @@ const categorySchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("categoryModel", categorySchema);
+module.exports = mongoose.model("couponModel", couponSchema);

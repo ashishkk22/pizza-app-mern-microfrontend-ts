@@ -22,7 +22,6 @@ root.render(
           primaryColor: theme.primaryColor,
         }}
       >
-        <Toaster position="top-right" />
         <App />
       </MantineProvider>
     </StoreProvider>

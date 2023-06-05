@@ -33,7 +33,7 @@ const mount = ({
         }}
       >
         <QueryClientProvider client={queryClient}>
-          <Toaster position="top-right" />
+          {routingStrategy && <Toaster position="top-right" />}
           <RouterProvider router={router} />
         </QueryClientProvider>
       </MantineProvider>

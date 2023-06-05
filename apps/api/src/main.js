@@ -1,13 +1,22 @@
-const express = require('express');
+const express = require("express");
 const app = express();
-const http = require('http');
+const http = require("http");
 const server = http.createServer(app);
-const morgan = require('morgan');
-const cookieParser = require('cookie-parser');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const ImageKit = require('imagekit');
-const authRouter = require('./routers/authRouter');
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const ImageKit = require("imagekit");
+const authRouter = require("./routers/authRouter");
+const categoryRouter = require("./routers/categoryRouter");
+const couponRouter = require("./routers/couponRouter");
+const itemRouter = require("./routers/itemRouter");
+const userRouter = require("./routers/userRouter");
+const { authMiddleware } = require("./middlewares/auth-middleware");
+const orderRouter = require("./routers/orderRouter");
+const { adminMiddleware } = require("./middlewares/admin-middleware");
+const adminRouter = require("./routers/adminRouter");
+require("dotenv").config();
 
 const imagekit = new ImageKit({
   urlEndpoint: process.env.NX_IMAGE_KIT_URL,
@@ -20,31 +29,18 @@ app.use(
   cors({
     origin: [
       process.env.NX_CLIENT_LINK,
-      'http://localhost:4203',
-      'https://pizza-microfrontend.netlify.app',
-      'https://auth-pizza.netlify.app',
+      process.env.NX_CLIENT_HOST,
+      process.env.NX_CLIENT_ADMIN,
+      "http://localhost:4203",
+      "http://localhost:4200",
+      "http://localhost:4204",
     ],
     credentials: true,
-    exposedHeaders: ['Access-Control-Allow-Private-Network'],
   })
 );
 
-app.use(morgan('dev'));
+app.use(morgan("dev"));
 app.use(express.json());
-app.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'https://auth-pizza.netlify.app');
-  if (req.headers['access-control-request-private-network']) {
-    res.header('Access-Control-Allow-Private-Network', 'true'); // Modify this line
-  }
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept'
-  );
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Credentials', 'true');
-
-  next();
-});
 
 const db_link = process.env.NX_MONGODB_URL;
 
@@ -54,7 +50,7 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(function (db) {
-    console.log('db is connected');
+    console.log("db is connected");
   })
   .catch(function (err) {
     console.log(err);
@@ -63,12 +59,22 @@ mongoose
 const PORT = process.env.NX_PORT_API || 5000;
 
 server.listen(PORT, () => {
-  console.log('Listening on port `' + PORT + '`');
+  console.log("Listening on port `" + PORT + "`");
 });
 
-app.get('/auth', function (req, res) {
+app.get("/auth", function (req, res) {
   var result = imagekit.getAuthenticationParameters();
   res.send(result);
 });
 
-app.use('/user', authRouter);
+app.use("/user", authRouter);
+app.use("/category", categoryRouter);
+app.use("/coupon", couponRouter);
+app.use("/item", itemRouter);
+app.use("/user", authMiddleware, userRouter);
+app.use("/order", authMiddleware, orderRouter);
+app.use("/admin", adminMiddleware, adminRouter);
+
+app.get("/", function (req, res) {
+  res.send("server is running successfully ! ");
+});

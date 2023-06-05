@@ -90,6 +90,7 @@ const SignIn = () => {
             mt="md"
             size="md"
             withAsterisk
+            autoComplete="on"
           />
           <Checkbox
             label="Keep me logged in"
