@@ -14,9 +14,9 @@ jobs:
       main-branch-name: main
       artifacts-name: dist
       artifacts-path: dist
-      number-of-agents: 1
+      number-of-agents: 2
       init-commands: |
-        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=1
+        pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=2
       parallel-commands: |
         pnpm exec nx-cloud record -- pnpm exec nx format:check
       parallel-commands-on-agents: |
@@ -53,4 +53,4 @@ jobs:
     name: Nx Cloud - Agents
     uses: nrwl/ci/.github/workflows/nx-cloud-agents.yml@v0.13.0
     with:
-      number-of-agents: 1
+      number-of-agents: 2
