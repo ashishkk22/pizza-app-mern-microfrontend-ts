@@ -9,11 +9,10 @@ import {
   Drawer,
   ScrollArea,
   rem,
-  Image,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { Link } from 'react-router-dom';
 import { Logo } from '@pizza-app/ui-shared';
+import ProfileSection from './ProfileSection';
 
 const useStyles = createStyles((theme) => ({
   link: {
@@ -95,12 +94,7 @@ const Navbar = () => {
         <Group position="apart" sx={{ height: '100%' }}>
           <Logo />
           <Group className={classes.hiddenMobile}>
-            <Link to="/user/signin">
-              <Button variant="default">Log in</Button>
-            </Link>
-            <Link to="/user/signup">
-              <Button color="red.6">Sign up</Button>
-            </Link>
+            <ProfileSection />
           </Group>
           <Burger
             opened={drawerOpened}
@@ -129,17 +123,7 @@ const Navbar = () => {
             color={theme.colorScheme === 'dark' ? 'dark.5' : 'gray.1'}
           />
           <Group position="apart" grow pb="xl" px="md">
-            <Button
-              component={Link}
-              variant="default"
-              fullWidth
-              to="/user/signin"
-            >
-              Log in
-            </Button>
-            <Button to="/user/signup" component={Link} color="red.6" fullWidth>
-              Sign up
-            </Button>
+            <ProfileSection />
           </Group>
         </ScrollArea>
       </Drawer>

@@ -5,7 +5,7 @@ type CommentProps = {
   msg: string;
 };
 
-const Comment: FC<CommentProps> = ({ msg }) => {
+export const Comment: FC<CommentProps> = ({ msg }) => {
   return (
     <Card shadow="sm" radius="md" w={'100%'} my={6}>
       <Text fz="lg" fw={600} mb={12}>
@@ -15,5 +15,3 @@ const Comment: FC<CommentProps> = ({ msg }) => {
     </Card>
   );
 };
-
-export default Comment;

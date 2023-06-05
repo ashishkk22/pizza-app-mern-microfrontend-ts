@@ -10,13 +10,12 @@ type User = {
   TOKEN: string | null;
 };
 
-const Token = localStorage.getItem('TOKEN');
 //initialValue of the auth slice
 const initialState: User = {
   name: '',
   email: '',
   photo: '',
-  TOKEN: Token,
+  TOKEN: '',
   isAuth: false,
 };
 

@@ -1,13 +1,21 @@
 import React, { FC } from 'react';
 import { Card, Divider, Flex, Group, Image, Text } from '@mantine/core';
-import { Item } from '../../utils/Endpoints.type';
+
+type Item = {
+  _id: string;
+  name: string;
+  image: string;
+  description: string;
+  price: number;
+  qty?: number | null | undefined;
+};
 
 type ItemDetailProps = {
   orders: Item[];
   orderId: string;
 };
 
-const ItemsDetail: FC<ItemDetailProps> = ({ orders, orderId }) => {
+export const ItemsDetail: FC<ItemDetailProps> = ({ orders, orderId }) => {
   return (
     <Card shadow="sm" radius="md" w={'100%'} my={6}>
       <Flex gap={6} align="center" mb={12}>
@@ -48,5 +56,3 @@ const ItemsDetail: FC<ItemDetailProps> = ({ orders, orderId }) => {
     </Card>
   );
 };
-
-export default ItemsDetail;

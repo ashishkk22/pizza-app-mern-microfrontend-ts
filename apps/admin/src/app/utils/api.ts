@@ -8,13 +8,16 @@ import {
   DeleteCouponBody,
   DeleteProductBody,
   GetCouponResponse,
+  GetOrderResponse,
   GetProductResponse,
   ImgKitTokenRes,
   ImgKitUploadData,
   ImgKitUploadRes,
+  ModifyOrderStatusBody,
   UpdateCategoryBody,
   UpdateCouponBody,
   UpdateProductBody,
+  UserResponse,
 } from './endPoint.type';
 import { toast } from 'react-hot-toast';
 import { environment } from '../../environments/environment';
@@ -28,7 +31,7 @@ const fetchLimits = {
 };
 
 const API = axios.create({
-  baseURL: 'http://localhost:5222',
+  baseURL: environment.APP_BASE_URL,
   withCredentials: true,
 });
 
@@ -104,6 +107,17 @@ export const updateProduct = (body: UpdateProductBody) =>
 
 export const deleteProduct = (body: DeleteProductBody) =>
   API.post('/item/delete', body);
+
+// =========== order related function =============//
+
+export const getOrders = (page: number, limit: number) =>
+  API.get<GetOrderResponse>(`/admin/order?limit=${limit}&page=${page}`);
+
+export const modifyOrderStatus = (data: ModifyOrderStatusBody) =>
+  API.post('admin/order/statusUpdate', data);
+
+/** ======= is auth related functions ============= */
+export const checkAuth = () => API.get<UserResponse>('/user/isAuth');
 
 // ============== to display the toast on the error ============== //
 type ErrorResponse = {

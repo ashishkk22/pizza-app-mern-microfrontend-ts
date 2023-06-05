@@ -5,7 +5,6 @@ export const environment = {
   production: false,
   APP_URL_ENDPOINT: 'https://ik.imagekit.io/ashishkk22',
   APP_PUBLICKEY: 'public_5FdaYDsMGNdK/tpS2xUahusRz4o=',
-  APP_AUTHENTICATION_ENDPOINT: 'http://localhost:5222/auth',
   APP_BASE_URL: 'http://localhost:5222',
   APP_IMAGEKIT_UPLOAD_URL: 'https://upload.imagekit.io/api/v1/files/upload',
 };

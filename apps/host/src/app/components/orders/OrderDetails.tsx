@@ -1,10 +1,8 @@
 import { Button, Container, Flex } from '@mantine/core';
 import React from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import CustomerDetail from './CustomerDetail';
-import Comment from './Comment';
+import { Comment, CustomerDetail, ItemsDetail } from '@pizza-app/ui-shared';
 import TimeLine from './TimeLine';
-import ItemsDetail from './ItemsDetail';
 import { OrderedItems } from '../../utils/Endpoints.type';
 
 const OrderDetails = () => {

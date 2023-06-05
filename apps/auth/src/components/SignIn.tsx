@@ -16,6 +16,7 @@ import { toast } from 'react-hot-toast';
 import { signin } from '../config/api';
 import { useUserStore } from '@pizza-app/redux-store';
 import { addToken } from '@pizza-app/ui-shared';
+import { useMediaQuery } from '@mantine/hooks';
 
 const initialValues = {
   email: '',
@@ -28,6 +29,8 @@ const SignIn = () => {
   //to add the current user in the store
   const { addUser } = useUserStore();
 
+  const largeScreen = useMediaQuery('(min-width:600px)');
+
   const navigate = useNavigate();
 
   // to handle the form and its validations
@@ -36,7 +39,8 @@ const SignIn = () => {
     validate: (values) => validateSignIn(values),
   });
 
-  //
+  const platform = localStorage.getItem('host');
+
   const submitFormHandler = async () => {
     setLoading(true);
     try {
@@ -53,7 +57,7 @@ const SignIn = () => {
       });
       navigate('/');
       addToken(data.TOKEN);
-      toast.success(data.message);
+      toast.success('Signed successfully !');
     } catch (error: any) {
       error?.response?.data?.message &&
         toast.error(error?.response?.data?.message);
@@ -61,7 +65,7 @@ const SignIn = () => {
     setLoading(false);
   };
   return (
-    <Container size="xs" px="xs" pt={120}>
+    <Container size="xs" px="xs" pt={largeScreen ? 60 : 20}>
       <Card shadow="sm" padding="lg" radius="md" my={8}>
         <Text fz="xl" ta="center" mt="md" mb={50} weight={500}>
           Welcome Back !{' '}
@@ -97,15 +101,16 @@ const SignIn = () => {
             Sign In
           </Button>
         </form>
-
-        <Text ta="center" mt="md">
-          Don&apos;t have an account?{' '}
-          <Link to={'/signup'}>
-            <Anchor component="button" weight={700}>
-              Register
-            </Anchor>
-          </Link>
-        </Text>
+        {platform !== 'admin' && (
+          <Text ta="center" mt="md">
+            Don&apos;t have an account?{' '}
+            <Link to={'/signup'}>
+              <Anchor component="button" weight={700}>
+                Register
+              </Anchor>
+            </Link>
+          </Text>
+        )}
       </Card>
     </Container>
   );

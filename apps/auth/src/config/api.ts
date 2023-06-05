@@ -16,7 +16,7 @@ import { getToken } from '@pizza-app/ui-shared';
 import { getAuthToken } from '@pizza-app/redux-store';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5222',
+  baseURL: environment.APP_BASE_URL,
   withCredentials: true,
 });
 

@@ -2,7 +2,11 @@ import * as React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import Navbar from './components/navbar/Navbar';
 import { MantineProvider } from '@mantine/core';
-import { CenterLoader, GrayContainer } from '@pizza-app/ui-shared';
+import {
+  CenterLoader,
+  GrayContainer,
+  NotFoundPage,
+} from '@pizza-app/ui-shared';
 import { theme } from '@pizza-app/ui-shared';
 import { useUserStore } from '@pizza-app/redux-store';
 import Footer from './components/footer/Footer';
@@ -91,6 +95,7 @@ const App = () => {
                 </React.Suspense>
               }
             />
+            <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </React.Suspense>
       </GrayContainer>

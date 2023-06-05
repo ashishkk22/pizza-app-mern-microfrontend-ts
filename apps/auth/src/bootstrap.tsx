@@ -10,13 +10,18 @@ const mount = ({
   mountPoint,
   initialPathname,
   routingStrategy,
+  isAdminPanel,
 }: {
   mountPoint: HTMLElement;
   initialPathname?: string;
   routingStrategy?: RoutingStrategy;
+  isAdminPanel?: boolean;
 }) => {
   const router = createRouter({ strategy: routingStrategy, initialPathname });
 
+  if (isAdminPanel) {
+    localStorage.setItem('host', 'admin');
+  }
   const root = createRoot(mountPoint);
   root.render(
     <StoreProvider>
