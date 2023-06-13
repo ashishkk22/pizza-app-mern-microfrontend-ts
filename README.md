@@ -3,6 +3,9 @@
   <h1>Pizza Delivery Web App (Micro-Frontend) - MERN</h1>
 </div>
 
+### Demo Link
+- Main App : https://d91vylvrr1oaq.cloudfront.net/
+- Admin Panel : https://d1v43ctua56grx.cloudfront.net/
 ### Signup Page
 ![Screenshot from 2023-06-05 12-14-02](https://github.com/ashishkk22/pizza-app-mern-microfrontend-ts/assets/83124264/a01d557e-0334-4236-babe-75020a5202b2)
 
