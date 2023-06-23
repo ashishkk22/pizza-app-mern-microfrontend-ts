@@ -1,18 +1,22 @@
-
 <div align="center">
   <h1>Pizza Delivery Web App (Micro-Frontend) - MERN</h1>
 </div>
 
 ### Demo Link
+
 - Main App : https://d91vylvrr1oaq.cloudfront.net/
 - Admin Panel : https://d1v43ctua56grx.cloudfront.net/
+
 ### Signup Page
+
 ![Screenshot from 2023-06-05 12-14-02](https://github.com/ashishkk22/pizza-app-mern-microfrontend-ts/assets/83124264/a01d557e-0334-4236-babe-75020a5202b2)
 
 ### Home Page
+
 ![Screenshot from 2023-06-05 12-14-34](https://github.com/ashishkk22/pizza-app-mern-microfrontend-ts/assets/83124264/1bf5f510-b335-48e9-be82-b17a21803f0b)
 
 ### Admin Panel
+
 ![image](https://github.com/ashishkk22/pizza-app-mern-microfrontend-ts/assets/83124264/ee697c47-c636-4612-9b50-dfb665289b6e)
 
 <br />
@@ -48,6 +52,7 @@
 </details>
 
 ### Nx Graph
+
 ![graph (1)](https://github.com/ashishkk22/pizza-app-mern-microfrontend-ts/assets/83124264/f632a761-0caf-4b13-ad42-2ba7f9353f2b)
 
 <!-- Features -->
@@ -64,13 +69,10 @@
 
 The project is using nx monorepo.
 
-
 - **`apps`**: contains micro frontend apps with its host.
 - **`lib`**: contains shared UI , react query client and redux store between micro fontend apps.
 
 ![image](https://github.com/ashishkk22/pizza-app-mern-microfrontend-ts/assets/83124264/5d7cc732-3801-4946-996f-dcfe9d8ffedc)
-
-
 
 <!-- Env Variables -->
 
@@ -155,6 +157,7 @@ To start the admin app in development run.
 ```bash
   pnpm nx serve admin --devRemotes="auth"
 ```
+
 To start the server in development run
 
 ```bash
@@ -166,4 +169,3 @@ To start the server in development run
 ## :handshake: Contact
 
 Ashish Kachhadiya - ashishkachhadiya22@gmail.com
-

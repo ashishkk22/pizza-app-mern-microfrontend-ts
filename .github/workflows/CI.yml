@@ -18,7 +18,7 @@ jobs:
       init-commands: |
         pnpm exec nx-cloud start-ci-run --stop-agents-after="build" --agent-count=2
       parallel-commands: |
-        pnpm exec nx-cloud record
+        pnpm exec nx-cloud record -- pnpm exec nx format:check
       parallel-commands-on-agents: |
         pnpm nx run host:build:production
         pnpm nx run admin:build:production
