@@ -4,6 +4,7 @@ import Navbar from './components/navbar/Navbar';
 import { MantineProvider } from '@mantine/core';
 import {
   CenterLoader,
+  ErrorBoundary,
   GrayContainer,
   NotFoundPage,
 } from '@pizza-app/ui-shared';
@@ -63,11 +64,9 @@ const App = () => {
             <Route
               path="/cart/*"
               element={
-                <React.Suspense fallback={<CenterLoader />}>
-                  <ProtectedRoute>
-                    <Cart />
-                  </ProtectedRoute>
-                </React.Suspense>
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
               }
             />
             <Route
@@ -86,13 +85,12 @@ const App = () => {
                 </ProtectedRoute>
               }
             />
-
             <Route
               path="/user/*"
               element={
-                <React.Suspense fallback={<CenterLoader />}>
+                <ErrorBoundary>
                   <Auth />
-                </React.Suspense>
+                </ErrorBoundary>
               }
             />
             <Route path="*" element={<NotFoundPage />} />

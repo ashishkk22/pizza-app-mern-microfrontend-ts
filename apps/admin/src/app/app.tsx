@@ -1,5 +1,6 @@
 import {
   CenterLoader,
+  ErrorBoundary,
   GrayContainer,
   NotFoundPage,
 } from '@pizza-app/ui-shared';
@@ -7,7 +8,7 @@ import * as React from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import AppShell from './components/AppShell/AppShell';
 import { MantineProvider } from '@mantine/core';
-import { StoreProvider, useUserStore } from '@pizza-app/redux-store';
+import { useUserStore } from '@pizza-app/redux-store';
 import { theme } from '@pizza-app/ui-shared';
 import Footer from './components/Footer/Footer';
 import Home from './components/Home/Home';
@@ -70,17 +71,17 @@ export function App() {
               <Route
                 path="/user/signin"
                 element={
-                  <React.Suspense fallback={<CenterLoader />}>
+                  <ErrorBoundary>
                     <Auth />
-                  </React.Suspense>
+                  </ErrorBoundary>
                 }
               />
               <Route
                 path="/user/changePassword"
                 element={
-                  <React.Suspense fallback={<CenterLoader />}>
+                  <ErrorBoundary>
                     <Auth />
-                  </React.Suspense>
+                  </ErrorBoundary>
                 }
               />
               <Route

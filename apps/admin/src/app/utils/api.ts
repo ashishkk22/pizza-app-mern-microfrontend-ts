@@ -53,11 +53,11 @@ API.interceptors.request.use(onRequest);
 /** ========= category related functions  ========== */
 export const getCategories = (page: number) =>
   API.get<CategoryResponse>(
-    `/category?limit=${fetchLimits.categoryLimit}&page=${page}`
+    `/category/admin?limit=${fetchLimits.categoryLimit}&page=${page}`
   );
 
 export const getAllCategories = () =>
-  API.get<CategoryResponse>('/category/getAll');
+  API.get<CategoryResponse>('/category/getAll/admin');
 
 export const createCategory = (body: CreateCategoryBody) =>
   API.post('/category/create', body);
@@ -71,7 +71,7 @@ export const deleteCategory = (body: DeleteCategoryBody) =>
 /** ==========  coupon related functions ============ */
 export const getCoupons = (page: number) =>
   API.get<GetCouponResponse>(
-    `/coupon?limit=${fetchLimits.couponLimit}&page=${page}`
+    `/coupon/admin?limit=${fetchLimits.couponLimit}&page=${page}`
   );
 
 export const createCoupon = (body: CreateCouponBody) =>
@@ -96,7 +96,7 @@ export const imageKitUpload = (body: ImgKitUploadData) =>
 
 export const getProducts = (page: number) =>
   API.get<GetProductResponse>(
-    `/item?limit=${fetchLimits.productLimit}&page=${page}`
+    `/item/admin?limit=${fetchLimits.productLimit}&page=${page}`
   );
 
 export const createProduct = (body: CreateProductBody) =>

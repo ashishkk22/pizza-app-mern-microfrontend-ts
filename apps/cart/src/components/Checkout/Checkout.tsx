@@ -1,13 +1,5 @@
-import React, { useRef, useState } from 'react';
-import {
-  Button,
-  Container,
-  Flex,
-  Text,
-  TextInput,
-  Textarea,
-  Title,
-} from '@mantine/core';
+import React, { useState } from 'react';
+import { Button, Container, Flex, Text, Textarea, Title } from '@mantine/core';
 import AddressSection from './Address/AddressSection';
 import PaymentTypeSection from './PaymentType/PaymentTypeSection';
 import PaymentSummary from './PaymentSummary/PaymentSummary';
@@ -46,7 +38,7 @@ const Checkout = () => {
   });
 
   const checkoutHandler = () => {
-    const orderTotal = discountedPrice ?? totalPrice;
+    const orderTotal = discountedPrice === 0 ? totalPrice : discountedPrice;
     if (!currentAddress?._id) {
       toast.error('Please provide the address !');
       return;

@@ -36,9 +36,9 @@ const ShoppingCard: FC<ShoppingCardProps> = ({
                 size="xs"
                 fz="xl"
                 color="brand.7"
-                onClick={increaseQty}
+                onClick={decreaseQty}
               >
-                +
+                -
               </Button>
               <Text fz="md" color="brand.9">
                 {qty}
@@ -50,9 +50,9 @@ const ShoppingCard: FC<ShoppingCardProps> = ({
                 size="xs"
                 fz="xl"
                 color="brand.7"
-                onClick={decreaseQty}
+                onClick={increaseQty}
               >
-                -
+                +
               </Button>
             </Group>
           </Box>
