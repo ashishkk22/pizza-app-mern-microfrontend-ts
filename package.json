@@ -23,7 +23,7 @@
     "imagekit": "^4.1.3",
     "imagekitio-react": "^2.0.0",
     "jsonwebtoken": "^9.0.0",
-    "mongoose": "^7.2.0",
+    "mongoose": "^7.3.3",
     "morgan": "^1.10.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
